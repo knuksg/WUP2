@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mbti_test</string>
+    <string name="facebook_app_id">2382593018573503</string>
+    <string name="fb_login_protocol_scheme">fb2382593018573503</string>
+    <string name="facebook_client_token">7708e4d534404396d4533eda77302313</string>
+</resources>
