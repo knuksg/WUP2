@@ -5,10 +5,10 @@ import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mbti_test/components/default_button.dart';
-import 'package:mbti_test/components/theme.dart';
-import 'package:mbti_test/controllers/fluttermoji_controller.dart';
-import 'package:mbti_test/routes/app_pages.dart';
+import 'package:wup/components/default_button.dart';
+import 'package:wup/components/theme.dart';
+import 'package:wup/controllers/fluttermoji_controller.dart';
+import 'package:wup/routes/app_pages.dart';
 
 class FluttermojiScreen extends GetView<FluttermojiController> {
   FluttermojiScreen({Key? key}) : super(key: key);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mbti_test/components/constants.dart';
-import 'package:mbti_test/components/default_button.dart';
-import 'package:mbti_test/controllers/welcome_controller.dart';
-import 'package:mbti_test/routes/app_pages.dart';
+import 'package:wup/components/constants.dart';
+import 'package:wup/components/default_button.dart';
+import 'package:wup/controllers/welcome_controller.dart';
+import 'package:wup/routes/app_pages.dart';
 
 class WelcomeScreen extends GetView<WelcomeController> {
   const WelcomeScreen({Key? key}) : super(key: key);

@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:mbti_test/components/default_button.dart';
-import 'package:mbti_test/controllers/input_controller.dart';
+import 'package:wup/components/default_button.dart';
+import 'package:wup/controllers/input_controller.dart';
 
 class InputScreen extends StatefulWidget {
   const InputScreen({Key? key}) : super(key: key);

@@ -1,4 +1,4 @@
-name: mbti_test
+name: wup
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -51,6 +51,10 @@ dependencies:
 
   # calendar
   table_calendar:
+  flutter_datetime_picker: ^1.5.1
+  flutter_timezone: ^1.0.4
+  material_floating_search_bar: ^0.3.7
+
   
   # text
   google_fonts:
@@ -61,12 +65,17 @@ dependencies:
   form_builder_validators:
 
   # notification
-  # flutter_local_notifications:
+  flutter_local_notifications: ^13.0.0
+  rxdart:
 
   # sidemenu 
   flutter_slider_drawer:
 
   easy_localization:
+
+  fl_chart: ^0.35.0
+  syncfusion_flutter_charts:
+  flame: ^1.6.0
 
 dev_dependencies:
   flutter_test:

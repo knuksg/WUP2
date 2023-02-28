@@ -2,13 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mbti_test/components/default_button.dart';
-import 'package:mbti_test/routes/app_pages.dart';
+import 'package:wup/components/constants.dart';
+import 'package:wup/components/default_button.dart';
+import 'package:wup/routes/app_pages.dart';
 import 'calendar_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class EventDetailScreen extends StatefulWidget {
   final Event event;
@@ -24,17 +26,20 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   final email = GetStorage().read('email');
 
   late TextEditingController _titleController;
-  late DateTime _startDateTime;
-  late DateTime? _endDateTime;
-  late bool _isEndDateEnabled = false;
+  late DateTime? _startDate;
+  late DateTime? _endDate;
+  late bool _isAllDay;
 
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.event.title);
-    _startDateTime = widget.event.start;
-    _endDateTime = widget.event.end;
-    _isEndDateEnabled = _startDateTime != _endDateTime;
+    _startDate = widget.event.start;
+    _endDate = widget.event.end;
+    _isAllDay = widget.event.isAllDay;
+    print(_startDate);
+    print(_endDate);
+    print(_isAllDay);
   }
 
   @override
@@ -44,35 +49,176 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   }
 
   Future<void> _selectStartDate() async {
-    final initialDate = _startDateTime;
-    final newStartDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-    if (newStartDate != null) {
-      setState(() {
-        _startDateTime = newStartDate;
-        if (!_isEndDateEnabled) {
-          _endDateTime = newStartDate;
+    final initialDate = _startDate ?? DateTime.now();
+    final newStartDate = await DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: DateTime(1900),
+      maxTime: DateTime(2999),
+      onChanged: (date) {
+        print('change $date');
+
+        if (_endDate!.isBefore(date)) {
+          Get.snackbar(
+            'End date must be after start date',
+            'End date must be after start date',
+            snackPosition: SnackPosition.TOP,
+          );
         }
-      });
+      },
+      onConfirm: (date) {
+        print('confirm $date');
+      },
+      currentTime: initialDate,
+      locale: LocaleType.ko,
+    );
+
+    if (newStartDate != null) {
+      if (_endDate!.isBefore(newStartDate)) {
+        Get.snackbar(
+          'End date must be after start date',
+          'End date must be after start date',
+          snackPosition: SnackPosition.TOP,
+        );
+
+        setState(() {
+          _startDate = initialDate;
+        });
+      } else {
+        setState(() {
+          _startDate = newStartDate;
+        });
+      }
     }
   }
 
   Future<void> _selectEndDate() async {
-    final initialDate = _endDateTime ?? _startDateTime;
-    final newEndDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+    final initialDate = _endDate ?? _startDate ?? DateTime.now();
+    final newEndDate = await DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: DateTime(1900),
+      maxTime: DateTime(2999),
+      onChanged: (date) {
+        print('change $date');
+
+        if (_startDate!.isAfter(date)) {
+          Get.snackbar(
+            'End date must be after start date',
+            'End date must be after start date',
+            snackPosition: SnackPosition.TOP,
+          );
+        }
+      },
+      onConfirm: (date) {
+        print('confirm $date');
+      },
+      currentTime: initialDate,
+      locale: LocaleType.ko,
     );
+
     if (newEndDate != null) {
-      setState(() {
-        _endDateTime = newEndDate;
-      });
+      if (_startDate!.isAfter(newEndDate)) {
+        Get.snackbar(
+          'End date must be after start date',
+          'End date must be after start date',
+          snackPosition: SnackPosition.TOP,
+        );
+
+        setState(() {
+          _endDate = initialDate;
+        });
+      } else {
+        setState(() {
+          _endDate = newEndDate;
+        });
+      }
+    }
+  }
+
+  Future<void> _selectStartTime() async {
+    final initialDate = _startDate ?? DateTime.now();
+    final newStartDate = await DatePicker.showTimePicker(
+      context,
+      showSecondsColumn: false,
+      showTitleActions: true,
+      onChanged: (date) {
+        print('change $date');
+
+        if (_endDate!.isBefore(date)) {
+          Get.snackbar(
+            'End date must be after start date',
+            'End date must be after start date',
+            snackPosition: SnackPosition.TOP,
+          );
+        }
+      },
+      onConfirm: (date) {
+        print('confirm $date');
+      },
+      currentTime: initialDate,
+      locale: LocaleType.ko,
+    );
+
+    if (newStartDate != null) {
+      if (_endDate!.isBefore(newStartDate)) {
+        Get.snackbar(
+          'End date must be after start date',
+          'End date must be after start date',
+          snackPosition: SnackPosition.TOP,
+        );
+
+        setState(() {
+          _startDate = initialDate;
+        });
+      } else {
+        setState(() {
+          _startDate = newStartDate;
+        });
+      }
+    }
+  }
+
+  Future<void> _selectEndTime() async {
+    final initialDate = _endDate ?? _startDate ?? DateTime.now();
+    final newEndDate = await DatePicker.showTimePicker(
+      context,
+      showTitleActions: true,
+      showSecondsColumn: false,
+      onChanged: (date) {
+        print('change $date');
+
+        if (_startDate!.isAfter(date)) {
+          Get.snackbar(
+            'End date must be after start date',
+            'End date must be after start date',
+            snackPosition: SnackPosition.TOP,
+          );
+        }
+      },
+      onConfirm: (date) {
+        print('confirm $date');
+      },
+      currentTime: initialDate,
+      locale: LocaleType.ko,
+    );
+
+    if (newEndDate != null) {
+      if (_startDate!.isAfter(newEndDate)) {
+        Get.snackbar(
+          'End date must be after start date',
+          'End date must be after start date',
+          snackPosition: SnackPosition.TOP,
+        );
+
+        setState(() {
+          _endDate = initialDate;
+        });
+      } else {
+        setState(() {
+          _endDate = newEndDate;
+        });
+      }
     }
   }
 
@@ -138,13 +284,17 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
           ),
           child: IntrinsicHeight(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   TextFormField(
+                    maxLength: 16,
                     controller: _titleController,
-                    decoration: const InputDecoration(labelText: 'Title'),
+                    decoration: const InputDecoration(
+                      labelText: 'Title',
+                      hintText: '일정을 입력해주세요.',
+                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a title';
@@ -154,57 +304,97 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                   ),
                   const SizedBox(height: 16.0),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: TextButton(
-                          style: const ButtonStyle(),
-                          onPressed: _selectStartDate,
-                          child: Row(
-                            children: [
-                              const Text('Start'),
-                              const SizedBox(width: 16),
-                              Text(
-                                DateFormat('yyyy-MM-dd').format(_startDateTime),
-                              ),
-                            ],
-                          ),
-                        ),
+                      const Text(
+                        '하루 종일',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      Switch(
+                        value: _isAllDay,
+                        onChanged: (value) {
+                          print(value);
+                          setState(() {
+                            _isAllDay = value;
+                          });
+                          if (value) {}
+                        },
                       ),
                     ],
                   ),
-                  if (_isEndDateEnabled) ...[
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextButton(
-                            onPressed: _selectEndDate,
-                            child: Row(
-                              children: [
-                                const Text('End'),
-                                const SizedBox(width: 16),
-                                Text(
-                                  DateFormat('yyyy-MM-dd')
-                                      .format(_endDateTime!),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                  const SizedBox(height: 16.0),
-                  Row(
+                  Column(
                     children: [
-                      Checkbox(
-                        value: _isEndDateEnabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isEndDateEnabled = value!;
-                          });
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            '시작',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Row(
+                            children: [
+                              FilledButton(
+                                onPressed: _selectStartDate,
+                                style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        kPrimaryColor)),
+                                child: Text(
+                                  DateFormat('yyyy. MM. dd.')
+                                      .format(_startDate!),
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              if (!_isAllDay)
+                                FilledButton(
+                                  onPressed: _selectStartTime,
+                                  style: const ButtonStyle(
+                                      backgroundColor: MaterialStatePropertyAll(
+                                          kPrimaryColor)),
+                                  child: Text(
+                                    DateFormat('hh:mm a').format(_startDate!),
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                )
+                            ],
+                          ),
+                        ],
                       ),
-                      const Text('End Date'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            '종료',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Row(
+                            children: [
+                              FilledButton(
+                                onPressed: _selectEndDate,
+                                style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        kPrimaryColor)),
+                                child: Text(
+                                  DateFormat('yyyy. MM. dd.').format(_endDate!),
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              if (!_isAllDay)
+                                FilledButton(
+                                  onPressed: _selectEndTime,
+                                  style: const ButtonStyle(
+                                      backgroundColor: MaterialStatePropertyAll(
+                                          kPrimaryColor)),
+                                  child: Text(
+                                    DateFormat('hh:mm a').format(_endDate!),
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   const Spacer(),
@@ -217,14 +407,19 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                                 content: Text('Please enter a title')));
                         return;
                       }
-                      if (_isEndDateEnabled && _endDateTime == null) {
+                      if (_startDate == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Please select a start date')));
+                        return;
+                      }
+                      if (_endDate == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text('Please select an end date')));
                         return;
                       }
-                      if (_isEndDateEnabled &&
-                          _endDateTime!.isBefore(_startDateTime)) {
+                      if (_endDate!.isBefore(_startDate!)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content:
@@ -235,11 +430,12 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       final updatedEvent = Event(
                         widget.event.id,
                         _titleController.text,
-                        _startDateTime.toLocal(),
-                        _isEndDateEnabled
-                            ? _endDateTime!.toLocal()
-                            : _startDateTime.toLocal(),
+                        _startDate!.toLocal(),
+                        _endDate!.toLocal(),
+                        _isAllDay,
                       );
+
+                      print(_isAllDay);
 
                       final response = await http.put(
                         Uri.parse(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mbti_test/components/constants.dart';
+import 'package:wup/components/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData theme() {

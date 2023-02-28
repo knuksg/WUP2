@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mbti_test/models/api_adapter.dart';
-import 'package:mbti_test/models/mbti_question_model.dart';
+import 'package:wup/models/api_adapter.dart';
+import 'package:wup/models/mbti_question_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:mbti_test/routes/app_pages.dart';
+import 'package:wup/routes/app_pages.dart';
 
 class QuestionController extends GetxController {
   final getStorage = GetStorage();

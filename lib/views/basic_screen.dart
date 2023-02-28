@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/basic_controller.dart';
+import 'package:wup/controllers/basic_controller.dart';
 
 class BasicScreen extends GetView<BasicController> {
   const BasicScreen({Key? key}) : super(key: key);

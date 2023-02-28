@@ -1,22 +1,25 @@
+import 'package:flame/game.dart';
 import 'package:get/get.dart';
-import 'package:mbti_test/binding/calendar_binding.dart';
-import 'package:mbti_test/binding/fluttermoji_binding.dart';
-import 'package:mbti_test/binding/home_binding.dart';
-import 'package:mbti_test/binding/input_binding.dart';
-import 'package:mbti_test/binding/login_binding.dart';
-import 'package:mbti_test/binding/question_binding.dart';
-import 'package:mbti_test/binding/result_binding.dart';
-import 'package:mbti_test/binding/splash_binding.dart';
-import 'package:mbti_test/binding/welcome_binding.dart';
-import 'package:mbti_test/views/calendar_screen.dart';
-import 'package:mbti_test/views/fluttermoji_screen.dart';
-import 'package:mbti_test/views/home_screen.dart';
-import 'package:mbti_test/views/input_screen.dart';
-import 'package:mbti_test/views/login_screen.dart';
-import 'package:mbti_test/views/question_screen.dart';
-import 'package:mbti_test/views/result_screen.dart';
-import 'package:mbti_test/views/splash_screen.dart';
-import 'package:mbti_test/views/welcome_screen.dart';
+import 'package:wup/binding/calendar_binding.dart';
+import 'package:wup/binding/fluttermoji_binding.dart';
+import 'package:wup/binding/game_binding.dart';
+import 'package:wup/binding/home_binding.dart';
+import 'package:wup/binding/input_binding.dart';
+import 'package:wup/binding/login_binding.dart';
+import 'package:wup/binding/question_binding.dart';
+import 'package:wup/binding/result_binding.dart';
+import 'package:wup/binding/splash_binding.dart';
+import 'package:wup/binding/welcome_binding.dart';
+import 'package:wup/views/calendar_screen.dart';
+import 'package:wup/views/fluttermoji_screen.dart';
+import 'package:wup/views/game_screen.dart';
+import 'package:wup/views/home_screen.dart';
+import 'package:wup/views/input_screen.dart';
+import 'package:wup/views/login_screen.dart';
+import 'package:wup/views/question_screen.dart';
+import 'package:wup/views/result_screen.dart';
+import 'package:wup/views/splash_screen.dart';
+import 'package:wup/views/welcome_screen.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -27,7 +30,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomeScreen(),
+      page: () => HomeScreen(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -74,6 +77,11 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => const CalendarScreen(),
       binding: CalendarBinding(),
+    ),
+    GetPage(
+      name: _Paths.GAME,
+      page: () => GameWidget(game: GameScreen()),
+      binding: GameBinding(),
     ),
   ];
 }

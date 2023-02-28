@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mbti_test/controllers/input_controller.dart';
+import 'package:wup/controllers/input_controller.dart';
 
 class InputBinding extends Bindings {
   @override

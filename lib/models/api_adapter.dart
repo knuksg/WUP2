@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mbti_test/models/mbti_question_model.dart';
+import 'package:wup/models/mbti_question_model.dart';
 
 List<MbtiQuestion> parseMbtiQuestions(String reseponseBody) {
   final parsed = json.decode(reseponseBody).cast<Map<String, dynamic>>();

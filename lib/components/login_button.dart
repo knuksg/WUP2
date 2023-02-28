@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mbti_test/components/constants.dart';
+import 'package:wup/components/constants.dart';
 
 class LoginButton extends StatelessWidget {
   final VoidCallback onPressed;

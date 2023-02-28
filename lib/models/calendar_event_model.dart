@@ -4,6 +4,7 @@ class Event {
   final String description;
   final DateTime start;
   final DateTime end;
+  final bool isAllDay;
 
   Event({
     required this.id,
@@ -11,6 +12,7 @@ class Event {
     required this.description,
     required this.start,
     required this.end,
+    required this.isAllDay,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class Event {
       description: json['description'],
       start: DateTime.parse(json['start']),
       end: DateTime.parse(json['end']),
+      isAllDay: json['isAllDay'],
     );
   }
 

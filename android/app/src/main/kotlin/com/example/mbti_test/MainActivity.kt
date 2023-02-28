@@ -1,4 +1,4 @@
-package com.example.mbti_test
+package com.flstone.wup
 
 import io.flutter.embedding.android.FlutterActivity
 

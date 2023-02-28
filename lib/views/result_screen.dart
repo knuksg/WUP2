@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 import 'package:get/get.dart';
-import 'package:mbti_test/controllers/result_controller.dart';
-import 'package:mbti_test/routes/app_pages.dart';
+import 'package:wup/controllers/result_controller.dart';
+import 'package:wup/routes/app_pages.dart';
 
 class ResultScreen extends GetView<ResultController> {
   const ResultScreen({Key? key}) : super(key: key);

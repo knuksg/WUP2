@@ -5,10 +5,10 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:mbti_test/components/constants.dart';
-import 'package:mbti_test/views/calendar_input_screen.dart';
-import 'package:mbti_test/views/calendar_detail_screen.dart';
-import 'package:mbti_test/views/slider_view.dart';
+import 'package:wup/components/constants.dart';
+import 'package:wup/views/calendar_input_screen.dart';
+import 'package:wup/views/calendar_detail_screen.dart';
+import 'package:wup/views/slider_view.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
@@ -18,8 +18,9 @@ class Event {
   final String title;
   final DateTime start;
   final DateTime end;
+  final bool isAllDay;
 
-  const Event(this.id, this.title, this.start, this.end);
+  const Event(this.id, this.title, this.start, this.end, this.isAllDay);
 
   @override
   String toString() => title;
@@ -33,6 +34,7 @@ class Event {
       json['title'],
       start.toLocal(),
       end.toLocal(),
+      json['isAllDay'],
     );
   }
 
@@ -41,6 +43,7 @@ class Event {
         'title': title,
         'start': start.toLocal().toIso8601String(),
         'end': end.toLocal().toIso8601String(),
+        'isAllDay': isAllDay
       };
 }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mbti_test/components/constants.dart';
-import 'package:mbti_test/components/theme.dart';
+import 'package:wup/components/constants.dart';
+import 'package:wup/components/theme.dart';
 
 class DefaultButton extends StatelessWidget {
   final String? text;

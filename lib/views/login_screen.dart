@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mbti_test/components/constants.dart';
-import 'package:mbti_test/components/login_button.dart';
+import 'package:wup/components/constants.dart';
+import 'package:wup/components/login_button.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -45,6 +45,13 @@ class LoginScreen extends GetView<LoginController> {
                 platform: "Facebook",
                 onPressed: () {
                   controller.facebookLogin();
+                },
+              ),
+              const SizedBox(height: 16),
+              LoginButton(
+                platform: "Apple",
+                onPressed: () {
+                  controller.appleLogin();
                 },
               ),
               const SizedBox(height: 32),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mbti_test/components/default_button.dart';
-import 'package:mbti_test/controllers/question_controller.dart';
-import 'package:mbti_test/models/mbti_question_model.dart';
+import 'package:wup/components/default_button.dart';
+import 'package:wup/controllers/question_controller.dart';
+import 'package:wup/models/mbti_question_model.dart';
 
 class QuestionScreen extends GetView<QuestionController> {
   const QuestionScreen({super.key});

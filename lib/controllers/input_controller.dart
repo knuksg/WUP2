@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mbti_test/routes/app_pages.dart';
+import 'package:wup/routes/app_pages.dart';
 
 class InputController extends GetxController {
   final getStorage = GetStorage();

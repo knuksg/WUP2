@@ -1,41 +1,78 @@
 {
   "project_info": {
-    "project_number": "466974255151",
-    "project_id": "mbti-test-9a066",
-    "storage_bucket": "mbti-test-9a066.appspot.com"
+    "project_number": "818668515577",
+    "project_id": "flyingstone-wup",
+    "storage_bucket": "flyingstone-wup.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:466974255151:android:edf7312ea4b8cef346beda",
+        "mobilesdk_app_id": "1:818668515577:android:3c32fd645fc31f661cf228",
         "android_client_info": {
-          "package_name": "com.example.mbti_test"
+          "package_name": "com.flstone.wup"
         }
       },
       "oauth_client": [
         {
-          "client_id": "466974255151-opq25kilvg7l86g5vgejl934le3n3o46.apps.googleusercontent.com",
+          "client_id": "818668515577-re27dju1k0akf6jo7ijhsdl6sugac71s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.mbti_test",
+            "package_name": "com.flstone.wup",
             "certificate_hash": "047683b05ce52baaada4dc7836c81716d5aeb7c3"
           }
         },
         {
-          "client_id": "466974255151-ku83n16d7pgtprt2cfdkh9dcdiqidevf.apps.googleusercontent.com",
+          "client_id": "818668515577-5hjlrfuppe09472nlnvvmfe8i3bgqi49.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDiS1ZIxyRssGg1zBiN1Wxd4ABsZ73J9aI"
+          "current_key": "AIzaSyA_uzYLIPMci4wvgQCzRRY4a_p2JbTBLmc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "466974255151-1eaqncd983oigk784vd9q0eu87uok7r0.apps.googleusercontent.com",
+              "client_id": "818668515577-3l5otkfl40bh3p4hrp1hsnosvauttvqk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818668515577:android:49e6ab8d5b5972301cf228",
+        "android_client_info": {
+          "package_name": "com.flyingstone.wup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818668515577-u9qg0rs9mak74aq856d1630hkhrumuff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flyingstone.wup",
+            "certificate_hash": "047683b05ce52baaada4dc7836c81716d5aeb7c3"
+          }
+        },
+        {
+          "client_id": "818668515577-5hjlrfuppe09472nlnvvmfe8i3bgqi49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_uzYLIPMci4wvgQCzRRY4a_p2JbTBLmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818668515577-3l5otkfl40bh3p4hrp1hsnosvauttvqk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

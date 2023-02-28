@@ -12,6 +12,7 @@ abstract class Routes {
   static const RESULT = _Paths.RESULT;
   static const CALENDAR = _Paths.CALENDAR;
   static const PROFILE = _Paths.PROFILE;
+  static const GAME = _Paths.GAME;
 }
 
 abstract class _Paths {
@@ -26,4 +27,5 @@ abstract class _Paths {
   static const RESULT = '/result';
   static const CALENDAR = '/calendar';
   static const PROFILE = '/profile';
+  static const GAME = '/game';
 }

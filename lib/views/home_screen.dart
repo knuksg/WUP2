@@ -2,19 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 import 'package:get/get.dart';
-import 'package:mbti_test/components/default_button.dart';
-import 'package:mbti_test/components/theme.dart';
-import 'package:mbti_test/routes/app_pages.dart';
-import 'package:mbti_test/views/slider_view.dart';
-import 'package:mbti_test/views/test_screen.dart';
-import '../controllers/home_controller.dart';
+import 'package:wup/Service/notification_service.dart';
+import 'package:wup/components/default_button.dart';
+import 'package:wup/components/theme.dart';
+import 'package:wup/routes/app_pages.dart';
+import 'package:wup/views/biorhytme_screen.dart';
+import 'package:wup/views/slider_view.dart';
+import 'package:wup/views/test_screen.dart';
+import 'package:wup/controllers/home_controller.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class HomeScreen extends GetView<HomeController> {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  tz.TZDateTime _nextInstanceOfTenAM() {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, now.hour, 30);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    scheduledDate = now.add(const Duration(seconds: 5));
+    return scheduledDate;
+  }
+
+  List<double> physicalCycle = [0.99, 0.95, 0.91, 0.87, 0.84, 0.82, 0.81];
+  List<double> emotionalCycle = [0.37, 0.52, 0.68, 0.82, 0.91, 0.94, 0.91];
+  List<double> intellectualCycle = [0.59, 0.71, 0.81, 0.87, 0.89, 0.87, 0.81];
 
   @override
   Widget build(BuildContext context) {
-    final scheduleTime = DateTime.now().toLocal();
     final GlobalKey<SliderDrawerState> sliderDrawerKey =
         GlobalKey<SliderDrawerState>();
     return Scaffold(
@@ -69,6 +86,19 @@ class HomeScreen extends GetView<HomeController> {
                 ),
                 DefaultButton2(
                     press: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BiorhythmGraph(
+                              physical: physicalCycle,
+                              emotional: emotionalCycle,
+                              intellectual: intellectualCycle),
+                        ),
+                      );
+                    },
+                    text: 'Bio'),
+                DefaultButton2(
+                    press: () {
                       controller.logout();
                     },
                     text: 'Logout'),
@@ -83,8 +113,20 @@ class HomeScreen extends GetView<HomeController> {
                     },
                     text: 'Modal Test'),
                 DefaultButton2(
-                  press: () {},
+                  press: () async {
+                    await NotificationService().showNotification(
+                        title: 'Sample title', body: 'It works!');
+                    print('test');
+                  },
                   text: 'Noti test',
+                ),
+                DefaultButton2(
+                  press: () async {
+                    NotificationService()
+                        .scheduleReminder('test', _nextInstanceOfTenAM());
+                    print('test');
+                  },
+                  text: 'Schedule Noti test',
                 ),
               ],
             ),

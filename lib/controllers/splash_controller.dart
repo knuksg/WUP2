@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mbti_test/components/constants.dart';
-import 'package:mbti_test/routes/app_pages.dart';
+import 'package:wup/components/constants.dart';
+import 'package:wup/routes/app_pages.dart';
 
 class SplashController extends GetxController {
   final getStorage = GetStorage();
@@ -41,7 +41,7 @@ class SplashController extends GetxController {
     super.onReady();
     // 화면 수정 쉽게 하기 위해서 아래줄에서 바로 링크 연결합니다.
     //수정 끝나면 하단 주석처리된 부분 다시 살려주세요.
-    // Get.offNamed(Routes.INPUT);
+    // Get.offNamed(Routes.LOGIN);
 
     if (getStorage.read('email') != null) {
       Future.delayed(const Duration(milliseconds: 3000), () {

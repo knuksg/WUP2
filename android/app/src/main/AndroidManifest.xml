@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mbti_test">
-
+    package="com.flstone.wup">
 
     <!-- Facebook -->
     <queries>
@@ -10,7 +9,7 @@
 
 
    <application
-        android:label="mbti_test"
+        android:label="wup"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 

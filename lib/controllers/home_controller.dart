@@ -2,7 +2,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mbti_test/routes/app_pages.dart';
+import 'package:wup/routes/app_pages.dart';
 
 class HomeController extends GetxController {
   final getStorage = GetStorage();
