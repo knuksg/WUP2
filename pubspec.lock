@@ -492,6 +492,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.5"
+  jsonize:
+    dependency: "direct main"
+    description:
+      name: jsonize
+      sha256: e57a8f1da6f38b2466b860f1080f0a3ae228ba8f565ef17e0e42c585be625b67
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.7.1"
   lints:
     dependency: transitive
     description:

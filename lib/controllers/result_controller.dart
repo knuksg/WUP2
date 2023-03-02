@@ -12,9 +12,7 @@ class ResultController extends GetxController {
   void onInit() {
     super.onInit();
     mbtiList = getStorage.read('mbtiList');
-    print(mbtiList);
     mbti = mbtiType(mbtiList);
-    print(mbti);
     getStorage.write('mbti', mbti);
     updateMbti(getStorage.read('email'), mbti);
   }

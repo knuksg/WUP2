@@ -76,6 +76,7 @@ dependencies:
   fl_chart: ^0.35.0
   syncfusion_flutter_charts:
   flame: ^1.6.0
+  jsonize: ^1.7.1
 
 dev_dependencies:
   flutter_test:

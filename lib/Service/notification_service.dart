@@ -107,12 +107,11 @@ class NotificationService {
     return notificationsPlugin.show(id, title, body, notificationDetails());
   }
 
-  Future<void> scheduleReminder(title, time) async {
-    print('test');
+  Future<void> scheduleReminder(id, title, noti, time) async {
     await notificationsPlugin.zonedSchedule(
-        0,
+        id,
         title,
-        '일정 시작 15분 전입니다.',
+        '일정 시작 $noti 전입니다.',
         time,
         const NotificationDetails(
           android: AndroidNotificationDetails('channelId', 'channelName',
@@ -122,6 +121,9 @@ class NotificationService {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.dateAndTime);
-    print('test2');
+  }
+
+  Future<void> deletescheduleReminder(int hashcode) async {
+    await notificationsPlugin.cancel(hashcode);
   }
 }

@@ -19,8 +19,10 @@ class Event {
   final DateTime start;
   final DateTime end;
   final bool isAllDay;
+  final int? noti;
 
-  const Event(this.id, this.title, this.start, this.end, this.isAllDay);
+  const Event(
+      this.id, this.title, this.start, this.end, this.isAllDay, this.noti);
 
   @override
   String toString() => title;
@@ -28,13 +30,19 @@ class Event {
   factory Event.fromJson(Map<String, dynamic> json) {
     final start = DateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(json['start']);
     final end = DateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(json['end']);
-
+    int? intNoti;
+    try {
+      debugPrint(json['noti'].toString().split(':')[2]);
+      final jsonNoti = json['noti'].toString().split(':')[2];
+      intNoti = int.parse(jsonNoti);
+    } catch (e) {}
     return Event(
       json['id'],
       json['title'],
       start.toLocal(),
       end.toLocal(),
       json['isAllDay'],
+      intNoti,
     );
   }
 
@@ -43,7 +51,8 @@ class Event {
         'title': title,
         'start': start.toLocal().toIso8601String(),
         'end': end.toLocal().toIso8601String(),
-        'isAllDay': isAllDay
+        'isAllDay': isAllDay,
+        'noti': noti,
       };
 }
 

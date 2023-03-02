@@ -24,9 +24,11 @@ class _EventInputScreenState extends State<EventInputScreen> {
   final email = GetStorage().read('email');
 
   late TextEditingController _titleController;
-  late DateTime? _startDate;
-  late DateTime? _endDate;
+  late DateTime _startDate;
+  late DateTime _endDate;
   bool _isAllDay = false;
+  late Duration? _noti;
+  String dropdownValue = '없음';
 
   List eventList = [];
   bool searchEvent = false;
@@ -37,6 +39,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
     _titleController = TextEditingController();
     _startDate = DateTime.now().toLocal();
     _endDate = DateTime.now().toLocal().add(const Duration(hours: 1));
+    _noti = null;
   }
 
   @override
@@ -46,7 +49,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
   }
 
   Future<void> _selectStartDate() async {
-    final initialDate = _startDate ?? DateTime.now();
+    final initialDate = _startDate;
     final newStartDate = await DatePicker.showDatePicker(
       context,
       showTitleActions: true,
@@ -55,7 +58,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
       onChanged: (date) {
         print('change $date');
 
-        if (_endDate!.isBefore(date)) {
+        if (_endDate.isBefore(date)) {
           Get.snackbar(
             'End date must be after start date',
             'End date must be after start date',
@@ -71,7 +74,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
     );
 
     if (newStartDate != null) {
-      if (_endDate!.isBefore(newStartDate)) {
+      if (_endDate.isBefore(newStartDate)) {
         Get.snackbar(
           'End date must be after start date',
           'End date must be after start date',
@@ -90,7 +93,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
   }
 
   Future<void> _selectEndDate() async {
-    final initialDate = _endDate ?? _startDate ?? DateTime.now();
+    final initialDate = _endDate;
     final newEndDate = await DatePicker.showDatePicker(
       context,
       showTitleActions: true,
@@ -99,7 +102,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
       onChanged: (date) {
         print('change $date');
 
-        if (_startDate!.isAfter(date)) {
+        if (_startDate.isAfter(date)) {
           Get.snackbar(
             'End date must be after start date',
             'End date must be after start date',
@@ -115,7 +118,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
     );
 
     if (newEndDate != null) {
-      if (_startDate!.isAfter(newEndDate)) {
+      if (_startDate.isAfter(newEndDate)) {
         Get.snackbar(
           'End date must be after start date',
           'End date must be after start date',
@@ -134,7 +137,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
   }
 
   Future<void> _selectStartTime() async {
-    final initialDate = _startDate ?? DateTime.now();
+    final initialDate = _startDate;
     final newStartDate = await DatePicker.showTimePicker(
       context,
       showSecondsColumn: false,
@@ -142,7 +145,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
       onChanged: (date) {
         print('change $date');
 
-        if (_endDate!.isBefore(date)) {
+        if (_endDate.isBefore(date)) {
           Get.snackbar(
             'End date must be after start date',
             'End date must be after start date',
@@ -158,7 +161,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
     );
 
     if (newStartDate != null) {
-      if (_endDate!.isBefore(newStartDate)) {
+      if (_endDate.isBefore(newStartDate)) {
         Get.snackbar(
           'End date must be after start date',
           'End date must be after start date',
@@ -177,7 +180,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
   }
 
   Future<void> _selectEndTime() async {
-    final initialDate = _endDate ?? _startDate ?? DateTime.now();
+    final initialDate = _endDate;
     final newEndDate = await DatePicker.showTimePicker(
       context,
       showTitleActions: true,
@@ -185,7 +188,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
       onChanged: (date) {
         print('change $date');
 
-        if (_startDate!.isAfter(date)) {
+        if (_startDate.isAfter(date)) {
           Get.snackbar(
             'End date must be after start date',
             'End date must be after start date',
@@ -201,7 +204,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
     );
 
     if (newEndDate != null) {
-      if (_startDate!.isAfter(newEndDate)) {
+      if (_startDate.isAfter(newEndDate)) {
         Get.snackbar(
           'End date must be after start date',
           'End date must be after start date',
@@ -238,8 +241,13 @@ class _EventInputScreenState extends State<EventInputScreen> {
           setState(() {
             eventList.add(event);
           });
-          print(event.title);
         }
+      }
+      // 날짜 기준 최신 3건만 가져오는 코드.
+      try {
+        eventList = eventList.sublist(eventList.length - 3);
+      } catch (e) {
+        eventList;
       }
     });
   }
@@ -294,174 +302,253 @@ class _EventInputScreenState extends State<EventInputScreen> {
                       },
                     ),
                   ),
-                  if (searchEvent)
-                    SizedBox(
-                      height: 80,
-                      child: ListView.builder(
-                        itemCount: eventList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          // Create a ListTile for each item in the data list
-                          return ListTile(
-                            title: Text(eventList[index].title),
-                            subtitle: Text(
-                                '${eventList[index].start.toString().split(' ')[1].split('.')[0].replaceRange(5, null, '')} - ${eventList[index].end.toString().split(' ')[1].split('.')[0].replaceRange(5, null, '')}'),
-                            tileColor: Colors.red,
-                            onTap: () {
-                              setState(() {
-                                DateTime oldStartTime = _startDate!;
-                                DateTime newStartTime = DateTime(
-                                  oldStartTime.year,
-                                  oldStartTime.month,
-                                  oldStartTime.day,
-                                  eventList[index].start.hour,
-                                  eventList[index].start.minute,
-                                );
-                                _startDate = newStartTime;
-
-                                DateTime oldEndTime = _endDate!;
-                                DateTime newEndTime = DateTime(
-                                  oldEndTime.year,
-                                  oldEndTime.month,
-                                  oldEndTime.day,
-                                  eventList[index].end.hour,
-                                  eventList[index].end.minute,
-                                );
-                                _endDate = newEndTime;
-
-                                _isAllDay = eventList[index].isAllDay;
-                              });
-                            },
-                          );
-                        },
-                      ),
-                    ),
                   const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Stack(
                     children: [
-                      const Text(
-                        '하루 종일',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Switch(
-                        value: _isAllDay,
-                        onChanged: (value) {
-                          print(value);
-                          setState(() {
-                            _isAllDay = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            '시작',
-                            style: TextStyle(fontSize: 16),
+                      if (searchEvent)
+                        Expanded(
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            separatorBuilder: (context, index) {
+                              return const Divider(
+                                height: 8,
+                              );
+                            },
+                            itemCount: eventList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              // Create a ListTile for each item in the data list
+                              return ListTile(
+                                title: Text(eventList[index].title),
+                                subtitle: Text(
+                                    '${eventList[index].start.toString().split(' ')[1].split('.')[0].replaceRange(5, null, '')} - ${eventList[index].end.toString().split(' ')[1].split('.')[0].replaceRange(5, null, '')}'),
+                                tileColor: kPrimaryColor,
+                                onTap: () {
+                                  setState(() {
+                                    DateTime oldStartTime = _startDate;
+                                    DateTime newStartTime = DateTime(
+                                      oldStartTime.year,
+                                      oldStartTime.month,
+                                      oldStartTime.day,
+                                      eventList[index].start.hour,
+                                      eventList[index].start.minute,
+                                    );
+                                    _startDate = newStartTime;
+
+                                    DateTime oldEndTime = _endDate;
+                                    DateTime newEndTime = DateTime(
+                                      oldEndTime.year,
+                                      oldEndTime.month,
+                                      oldEndTime.day,
+                                      eventList[index].end.hour,
+                                      eventList[index].end.minute,
+                                    );
+                                    _endDate = newEndTime;
+
+                                    _isAllDay = eventList[index].isAllDay;
+
+                                    if (eventList[index].noti != null) {
+                                      _noti = Duration(
+                                          minutes: eventList[index].noti);
+                                      dropdownValue =
+                                          eventList[index].noti.toString();
+                                    } else {
+                                      _noti = null;
+                                      dropdownValue = "없음";
+                                    }
+                                  });
+                                },
+                              );
+                            },
                           ),
-                          Row(
-                            children: [
-                              FilledButton(
-                                onPressed: _selectStartDate,
-                                style: const ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        kPrimaryColor)),
-                                child: Text(
-                                  DateFormat('yyyy. MM. dd.')
-                                      .format(_startDate!),
-                                  style: const TextStyle(fontSize: 16),
+                        ),
+                      Transform.translate(
+                        offset: searchEvent
+                            ? Offset(0, eventList.length * 70 + 16)
+                            : Offset.zero,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  '하루 종일',
+                                  style: TextStyle(fontSize: 16),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              if (!_isAllDay)
-                                FilledButton(
-                                  onPressed: _selectStartTime,
-                                  style: const ButtonStyle(
-                                      backgroundColor: MaterialStatePropertyAll(
-                                          kPrimaryColor)),
-                                  child: Text(
-                                    DateFormat('hh:mm a').format(_startDate!),
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
+                                Switch(
+                                  value: _isAllDay,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isAllDay = value;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  '시작',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Row(
+                                  children: [
+                                    FilledButton(
+                                      onPressed: _selectStartDate,
+                                      style: const ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStatePropertyAll(
+                                                  kPrimaryColor)),
+                                      child: Text(
+                                        DateFormat('yyyy. MM. dd.')
+                                            .format(_startDate),
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    if (!_isAllDay)
+                                      FilledButton(
+                                        onPressed: _selectStartTime,
+                                        style: const ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    kPrimaryColor)),
+                                        child: Text(
+                                          DateFormat('hh:mm a')
+                                              .format(_startDate),
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                      )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  '종료',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Row(
+                                  children: [
+                                    if (!_endDate.isBefore(_startDate))
+                                      FilledButton(
+                                        onPressed: _selectEndDate,
+                                        style: const ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    kPrimaryColor)),
+                                        child: Text(
+                                          DateFormat('yyyy. MM. dd.')
+                                              .format(_endDate),
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    if (_endDate.isBefore(_startDate))
+                                      FilledButton(
+                                        onPressed: _selectEndDate,
+                                        style: const ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    kPrimaryColor)),
+                                        child: Text(
+                                          DateFormat('yyyy. MM. dd.')
+                                              .format(_endDate),
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              decoration:
+                                                  TextDecoration.lineThrough),
+                                        ),
+                                      ),
+                                    const SizedBox(width: 8),
+                                    if (!_isAllDay)
+                                      if (!_endDate.isBefore(_startDate))
+                                        FilledButton(
+                                          onPressed: _selectEndTime,
+                                          style: const ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                      kPrimaryColor)),
+                                          child: Text(
+                                            DateFormat('hh:mm a')
+                                                .format(_endDate),
+                                            style:
+                                                const TextStyle(fontSize: 16),
+                                          ),
+                                        ),
+                                    if (!_isAllDay)
+                                      if (_endDate.isBefore(_startDate))
+                                        FilledButton(
+                                          onPressed: _selectEndTime,
+                                          style: const ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                      kPrimaryColor)),
+                                          child: Text(
+                                            DateFormat('hh:mm a')
+                                                .format(_endDate),
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                decoration:
+                                                    TextDecoration.lineThrough),
+                                          ),
+                                        ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  '알람',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                DropdownButton<String>(
+                                  value: dropdownValue,
+                                  items: const [
+                                    DropdownMenuItem(
+                                      value: "없음",
+                                      child: Text("없음"),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: "15",
+                                      child: Text("15분 전 알람"),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: "30",
+                                      child: Text("30분 전 알람"),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: "60",
+                                      child: Text("한 시간 전 알람"),
+                                    ),
+                                  ],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      dropdownValue = value!;
+                                      if (value == "없음") {
+                                        _noti = null;
+                                      }
+                                      if (value == "15") {
+                                        _noti = const Duration(minutes: 15);
+                                      }
+                                      if (value == "30") {
+                                        _noti = const Duration(minutes: 30);
+                                      }
+                                      if (value == "60") {
+                                        _noti = const Duration(minutes: 60);
+                                      }
+                                    });
+                                  },
                                 )
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            '종료',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Row(
-                            children: [
-                              if (!_endDate!.isBefore(_startDate!))
-                                FilledButton(
-                                  onPressed: _selectEndDate,
-                                  style: const ButtonStyle(
-                                      backgroundColor: MaterialStatePropertyAll(
-                                          kPrimaryColor)),
-                                  child: Text(
-                                    DateFormat('yyyy. MM. dd.')
-                                        .format(_endDate!),
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              if (_endDate!.isBefore(_startDate!))
-                                FilledButton(
-                                  onPressed: _selectEndDate,
-                                  style: const ButtonStyle(
-                                      backgroundColor: MaterialStatePropertyAll(
-                                          kPrimaryColor)),
-                                  child: Text(
-                                    DateFormat('yyyy. MM. dd.')
-                                        .format(_endDate!),
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        decoration: TextDecoration.lineThrough),
-                                  ),
-                                ),
-                              const SizedBox(width: 8),
-                              if (!_isAllDay)
-                                if (!_endDate!.isBefore(_startDate!))
-                                  FilledButton(
-                                    onPressed: _selectEndTime,
-                                    style: const ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(
-                                                kPrimaryColor)),
-                                    child: Text(
-                                      DateFormat('hh:mm a').format(_endDate!),
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                              if (!_isAllDay)
-                                if (_endDate!.isBefore(_startDate!))
-                                  FilledButton(
-                                    onPressed: _selectEndTime,
-                                    style: const ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(
-                                                kPrimaryColor)),
-                                    child: Text(
-                                      DateFormat('hh:mm a').format(_endDate!),
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    ),
-                                  ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -474,19 +561,8 @@ class _EventInputScreenState extends State<EventInputScreen> {
                                 content: Text('Please enter a title')));
                         return;
                       }
-                      if (_startDate == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please select a start date')));
-                        return;
-                      }
-                      if (_endDate == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Please select an end date')));
-                        return;
-                      }
-                      if (_endDate!.isBefore(_startDate!)) {
+
+                      if (_endDate.isBefore(_startDate)) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content:
@@ -497,9 +573,10 @@ class _EventInputScreenState extends State<EventInputScreen> {
                       final event = Event(
                         null,
                         _titleController.text,
-                        _startDate!.toLocal(),
-                        _endDate!.toLocal(),
+                        _startDate.toLocal(),
+                        _endDate.toLocal(),
                         _isAllDay,
+                        _noti?.inMinutes,
                       );
 
                       final response = await http.post(
@@ -518,19 +595,24 @@ class _EventInputScreenState extends State<EventInputScreen> {
                                 content: Text('Failed to add event')));
                       }
 
-                      tz.TZDateTime scheduledDate = tz.TZDateTime(
-                              tz.local,
-                              _startDate!.year,
-                              _startDate!.month,
-                              _startDate!.day,
-                              _startDate!.hour,
-                              _startDate!.minute)
-                          .subtract(const Duration(minutes: 15));
+                      if (_noti != null) {
+                        tz.TZDateTime scheduledDate = tz.TZDateTime(
+                                tz.local,
+                                _startDate.year,
+                                _startDate.month,
+                                _startDate.day,
+                                _startDate.hour,
+                                _startDate.minute)
+                            .subtract(_noti!);
+                        print(scheduledDate);
 
-                      print(scheduledDate);
-
-                      NotificationService().scheduleReminder(
-                          _titleController.text, scheduledDate);
+                        NotificationService().scheduleReminder(
+                            GetStorage().read('userName').hashCode ^
+                                _startDate.toString().substring(0, 19).hashCode,
+                            _titleController.text,
+                            '${_noti!.inMinutes}분',
+                            scheduledDate);
+                      }
                     },
                     text: 'Add Event',
                   ),

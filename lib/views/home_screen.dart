@@ -114,16 +114,25 @@ class HomeScreen extends GetView<HomeController> {
                     text: 'Modal Test'),
                 DefaultButton2(
                   press: () async {
-                    await NotificationService().showNotification(
-                        title: 'Sample title', body: 'It works!');
-                    print('test');
+                    await NotificationService().scheduleReminder(
+                        3333,
+                        'title',
+                        'noti',
+                        tz.TZDateTime.now(tz.local)
+                            .add(const Duration(seconds: 5)));
                   },
-                  text: 'Noti test',
+                  text: 'add noti',
                 ),
                 DefaultButton2(
                   press: () async {
-                    NotificationService()
-                        .scheduleReminder('test', _nextInstanceOfTenAM());
+                    await NotificationService().deletescheduleReminder(3333);
+                  },
+                  text: 'cancel noti',
+                ),
+                DefaultButton2(
+                  press: () async {
+                    NotificationService().scheduleReminder(
+                        0, 'test', '5초', _nextInstanceOfTenAM());
                     print('test');
                   },
                   text: 'Schedule Noti test',
