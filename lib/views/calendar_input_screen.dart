@@ -291,7 +291,9 @@ class _EventInputScreenState extends State<EventInputScreen> {
                           setState(() {
                             eventList.clear();
                             _searchEvents(value);
-                            searchEvent = true;
+                            if (eventList.isNotEmpty) {
+                              searchEvent = true;
+                            }
                           });
                         } else {
                           setState(() {

@@ -21,6 +21,7 @@ class HomeController extends GetxController {
     gender = getStorage.read("gender");
     mbti = getStorage.read("mbti");
     // MojiController().loadFluttermojiFromStorage();
+    print(getStorage.getValues());
   }
 
   logout() async {

@@ -1,125 +1,121 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'dart:math';
+import 'package:flutter/services.dart';
 
-class BiorhythmGraph extends StatelessWidget {
-  final List<double> physical;
-  final List<double> emotional;
-  final List<double> intellectual;
+import 'package:get_storage/get_storage.dart';
 
-  const BiorhythmGraph({
-    Key? key,
-    required this.physical,
-    required this.emotional,
-    required this.intellectual,
-  }) : super(key: key);
+class BioRhythmScreen extends StatefulWidget {
+  const BioRhythmScreen({Key? key}) : super(key: key);
+
+  @override
+  _BioRhythmScreenState createState() => _BioRhythmScreenState();
+}
+
+class _BioRhythmScreenState extends State<BioRhythmScreen> {
+  late final List<BioData> data;
+
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+
+    final birthday = DateTime.parse(GetStorage().read('birthday'));
+    final today = DateTime.now();
+    final delta = today.difference(birthday).inDays;
+
+    data = List.generate(
+      31,
+      (index) {
+        final date = today.add(Duration(days: index - 15));
+        final countDays = delta + index - 15;
+        final bioPhy = sin(2 * pi * countDays / 23) * 100;
+        final bioEmo = sin(2 * pi * countDays / 28) * 100;
+        final bioInt = sin(2 * pi * countDays / 33) * 100;
+        return BioData(date, bioPhy, bioEmo, bioInt);
+      },
+    );
+
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(32),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
-            offset: Offset(2, 2),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bio Rhythm'),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text(
-            'Biorhythm',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: LineChart(
-              LineChartData(
-                minY: -1,
-                maxY: 1,
-                // Define X and Y axis labels
-                titlesData: FlTitlesData(
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    margin: 8,
-                    getTitles: (value) {
-                      // You can customize the X axis labels here
-                      // For example, return the date for each day in the range
-                      return 'Day ${value.toInt() + 1}';
-                    },
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Text(
+              'Your Bio Rhythm',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Expanded(
+              child: charts.TimeSeriesChart(
+                [
+                  charts.Series<BioData, DateTime>(
+                    id: 'Physical',
+                    colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+                    domainFn: (data, _) => data.date,
+                    measureFn: (data, _) => data.bioPhy,
+                    data: data,
                   ),
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    margin: 8,
-                    getTitles: (value) {
-                      // You can customize the Y axis labels here
-                      // For example, return the biorhythm percentage for each label
-                      if (value == -1) {
-                        return '-100%';
-                      } else if (value == 0) {
-                        return '0%';
-                      } else if (value == 1) {
-                        return '100%';
-                      } else {
-                        return '';
-                      }
-                    },
+                  charts.Series<BioData, DateTime>(
+                    id: 'Emotional',
+                    colorFn: (_, __) =>
+                        charts.MaterialPalette.blue.shadeDefault,
+                    domainFn: (data, _) => data.date,
+                    measureFn: (data, _) => data.bioEmo,
+                    data: data,
                   ),
-                ),
-                // Define the lines to display on the graph
-                lineBarsData: [
-                  // Physical line
-                  LineChartBarData(
-                    spots: _createLineChartSpots(physical),
-                    isCurved: true,
-                    colors: [Colors.red],
-                    barWidth: 2,
-                    dotData: FlDotData(
-                      show: false,
-                    ),
-                  ),
-                  // Emotional line
-                  LineChartBarData(
-                    spots: _createLineChartSpots(emotional),
-                    isCurved: true,
-                    colors: [Colors.green],
-                    barWidth: 2,
-                    dotData: FlDotData(
-                      show: false,
-                    ),
-                  ),
-                  // Intellectual line
-                  LineChartBarData(
-                    spots: _createLineChartSpots(intellectual),
-                    isCurved: true,
-                    colors: [Colors.blue],
-                    barWidth: 2,
-                    dotData: FlDotData(
-                      show: false,
-                    ),
+                  charts.Series<BioData, DateTime>(
+                    id: 'Intellectual',
+                    colorFn: (_, __) =>
+                        charts.MaterialPalette.green.shadeDefault,
+                    domainFn: (data, _) => data.date,
+                    measureFn: (data, _) => data.bioInt,
+                    data: data,
                   ),
                 ],
+                animate: true,
+                behaviors: [
+                  charts.SeriesLegend(
+                    position: charts.BehaviorPosition.top,
+                    desiredMaxRows: 1,
+                    showMeasures: true,
+                  ),
+                ],
+                defaultRenderer: charts.LineRendererConfig(includePoints: true),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
 
-  List<FlSpot> _createLineChartSpots(List<double> values) {
-    // Create a list of FlSpot objects to represent the data points
-    return List.generate(
-      values.length,
-      (index) => FlSpot(
-        index.toDouble(),
-        values[index],
-      ),
-    );
-  }
+class BioData {
+  final DateTime date;
+  final double bioPhy;
+  final double bioEmo;
+  final double bioInt;
+
+  BioData(this.date, this.bioPhy, this.bioEmo, this.bioInt);
 }

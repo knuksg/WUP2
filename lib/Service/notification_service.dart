@@ -32,9 +32,10 @@ class NotificationService {
     bool granted = GetStorage().read('notificationsEnabled') ?? false;
 
     _isAndroidPermissionGranted();
-    if (!granted) {
-      _requestPermissions();
-    }
+    // if (!granted) {
+    //   _requestPermissions();
+    // }
+    _requestPermissions();
   }
 
   Future<void> _isAndroidPermissionGranted() async {

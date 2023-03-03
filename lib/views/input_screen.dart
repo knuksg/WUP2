@@ -191,8 +191,6 @@ class _InputScreenState extends State<InputScreen> {
                                         children: [
                                           Expanded(
                                             child: FormBuilderTextField(
-                                              autovalidateMode:
-                                                  AutovalidateMode.always,
                                               name: 'height',
                                               keyboardType: const TextInputType
                                                   .numberWithOptions(),

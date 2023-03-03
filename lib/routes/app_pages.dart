@@ -1,4 +1,3 @@
-import 'package:flame/game.dart';
 import 'package:get/get.dart';
 import 'package:wup/binding/calendar_binding.dart';
 import 'package:wup/binding/fluttermoji_binding.dart';
@@ -10,12 +9,16 @@ import 'package:wup/binding/question_binding.dart';
 import 'package:wup/binding/result_binding.dart';
 import 'package:wup/binding/splash_binding.dart';
 import 'package:wup/binding/welcome_binding.dart';
+import 'package:wup/binding/profile_binding.dart';
+import 'package:wup/binding/biorhythm_binding.dart';
+import 'package:wup/views/biorhytme_screen.dart';
 import 'package:wup/views/calendar_screen.dart';
 import 'package:wup/views/fluttermoji_screen.dart';
 import 'package:wup/views/game_screen.dart';
 import 'package:wup/views/home_screen.dart';
 import 'package:wup/views/input_screen.dart';
 import 'package:wup/views/login_screen.dart';
+import 'package:wup/views/profile_screen.dart';
 import 'package:wup/views/question_screen.dart';
 import 'package:wup/views/result_screen.dart';
 import 'package:wup/views/splash_screen.dart';
@@ -75,13 +78,18 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => const CalendarScreen(),
-      binding: CalendarBinding(),
+      page: () => const ProfileScreen(),
+      binding: ProfileBinding(),
     ),
     GetPage(
       name: _Paths.GAME,
-      page: () => GameWidget(game: GameScreen()),
+      page: () => const GameScreen(),
       binding: GameBinding(),
+    ),
+    GetPage(
+      name: _Paths.BIORHYTHM,
+      page: () => const BioRhythmScreen(),
+      binding: BiorhythmBinding(),
     ),
   ];
 }

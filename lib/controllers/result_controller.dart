@@ -6,7 +6,13 @@ import 'package:http/http.dart' as http;
 class ResultController extends GetxController {
   final getStorage = GetStorage();
   List mbtiList = [];
-  String mbti = '';
+
+  late String email;
+  late String gender;
+  late String birthday;
+  late String height;
+  late String weight;
+  late String mbti;
 
   @override
   void onInit() {
@@ -14,7 +20,19 @@ class ResultController extends GetxController {
     mbtiList = getStorage.read('mbtiList');
     mbti = mbtiType(mbtiList);
     getStorage.write('mbti', mbti);
-    updateMbti(getStorage.read('email'), mbti);
+    email = getStorage.read('email');
+    gender = getStorage.read('gender');
+    birthday = getStorage.read('birthday');
+    height = getStorage.read('height');
+    weight = getStorage.read('weight');
+    updateInfo(
+      email: email,
+      gender: gender,
+      birthday: birthday,
+      height: height,
+      weight: weight,
+      mbti: mbti,
+    );
   }
 }
 
@@ -65,9 +83,20 @@ String mbtiType(List mbtiList) {
   return type;
 }
 
-Future<http.Response> updateMbti(String email, String mbti) async {
+Future<http.Response> updateInfo({
+  required String email,
+  required String gender,
+  required String birthday,
+  required String height,
+  required String weight,
+  required String mbti,
+}) async {
   final server = dotenv.env['WUP_SERVER']!;
-  final response = await http.put(Uri.parse("$server/accounts/$email/"),
-      headers: {"Content-Type": "application/json"}, body: '{"mbti": "$mbti"}');
+  final response = await http.put(
+    Uri.parse("$server/accounts/$email/"),
+    headers: {"Content-Type": "application/json"},
+    body:
+        '{"mbti": "$mbti", "gender": "$gender","birthday": "$birthday","height": "$height","weight": "$weight"}',
+  );
   return response;
 }

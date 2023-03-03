@@ -13,6 +13,7 @@ abstract class Routes {
   static const CALENDAR = _Paths.CALENDAR;
   static const PROFILE = _Paths.PROFILE;
   static const GAME = _Paths.GAME;
+  static const BIORHYTHM = _Paths.BIORHYTHM;
 }
 
 abstract class _Paths {
@@ -28,4 +29,5 @@ abstract class _Paths {
   static const CALENDAR = '/calendar';
   static const PROFILE = '/profile';
   static const GAME = '/game';
+  static const BIORHYTHM = '/biorhythm';
 }

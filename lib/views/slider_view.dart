@@ -44,6 +44,7 @@ class SliderView extends StatelessWidget {
             Menu(Icons.home, 'Home'),
             Menu(Icons.calendar_month, 'Calendar'),
             Menu(Icons.gamepad_outlined, 'Game'),
+            Menu(Icons.person, 'Profile'),
             // Menu(Icons.notifications_active, 'Notification'),
             // Menu(Icons.favorite, 'Likes'),
             // Menu(Icons.settings, 'Setting'),
