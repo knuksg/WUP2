@@ -48,20 +48,23 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> appleLogin() async {
-    final credential = await SignInWithApple.getAppleIDCredential(
+  Future<UserCredential> signInWithApple() async {
+    // Request credential for the currently signed in Apple account.
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,
         AppleIDAuthorizationScopes.fullName,
       ],
     );
-  }
 
-  Future<http.Response> signUp(String email, String? userName) async {
-    userName ??= 'None';
-    final response = await http.post(Uri.parse("$server/accounts/"),
-        headers: {"Content-Type": "application/json"},
-        body: '{"email": "$email", "username": "$userName"}');
-    return response;
+    // Create an `OAuthCredential` from the credential returned by Apple.
+    final oauthCredential = OAuthProvider("apple.com").credential(
+      idToken: appleCredential.identityToken,
+      accessToken: appleCredential.authorizationCode,
+    );
+
+    // Sign in the user with Firebase. If the nonce we generated earlier does
+    // not match the nonce in `appleCredential.identityToken`, sign in will fail.
+    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
   }
 }
