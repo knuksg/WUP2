@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wup/app/theme/app_color.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -13,9 +14,7 @@ class LoginButton extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        width: 300,
-        height: 50.0,
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
@@ -29,8 +28,8 @@ class LoginButton extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.values[0],
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               width: 32,
@@ -39,14 +38,20 @@ class LoginButton extends StatelessWidget {
                 'assets/images/${platform}_logo.png',
               ),
             ),
-            const SizedBox(width: 10.0),
-            Text(
-              'Sign in with $platform',
-              style: const TextStyle(
-                fontSize: 16.0,
-                color: kSecondaryColor,
-                fontWeight: FontWeight.bold,
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'login_button'.tr(namedArgs: {'lang': platform}),
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  color: kSecondaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+            ),
+            const Icon(
+              Icons.navigate_next,
+              color: kPrimaryColor,
             ),
           ],
         ),

@@ -112,7 +112,7 @@ class NotificationService {
     await notificationsPlugin.zonedSchedule(
         id,
         title,
-        '일정 시작 $noti 전입니다.',
+        noti,
         time,
         const NotificationDetails(
           android: AndroidNotificationDetails('channelId', 'channelName',

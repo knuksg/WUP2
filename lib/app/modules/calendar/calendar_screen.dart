@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:wup/app/data/model/calendar_event_model.dart';
 import 'package:wup/app/modules/calendar/calendar_detail_screen.dart';
@@ -174,7 +174,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       body: Column(
         children: [
           TableCalendar<Event>(
-            locale: 'ko_KR',
+            locale: context.locale.toLanguageTag(),
             daysOfWeekHeight: 30,
             firstDay: kFirstDay,
             lastDay: kLastDay,

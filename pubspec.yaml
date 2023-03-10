@@ -40,9 +40,18 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl:
   http:
+  timezone:
+  flutter_dotenv:
+
+  # localization
+  easy_localization:
+
+  # get
   get:
   get_storage:
-  flutter_dotenv:
+
+  # screen
+  flutter_screenutil: ^5.6.1
 
   # login
   firebase_auth:
@@ -54,10 +63,6 @@ dependencies:
   table_calendar:
   flutter_datetime_picker: ^1.5.1
   flutter_timezone: ^1.0.4
-  flutter_iconpicker:
-    git:
-      url: https://github.com/kechankrisna/FlutterIconPicker
-      ref: hotfix
 
   # text
   google_fonts:
@@ -71,21 +76,22 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   rxdart:
 
-  # sidemenu 
-  flutter_slider_drawer:
-
   # game
   flame: ^1.6.0
 
   # biorhythm
   charts_flutter: ^0.12.0
+  chat_gpt_flutter:
 
-  timezone:
-  easy_localization:
+  
 
   fl_chart: ^0.35.0
   syncfusion_flutter_charts:
   jsonize: ^1.7.1
+
+  # # sidemenu 
+  # flutter_slider_drawer:
+  
 
 dev_dependencies:
   flutter_test:
@@ -113,6 +119,7 @@ flutter:
   assets:
     - assets/config/.env
     - assets/images/
+    - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

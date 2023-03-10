@@ -7,7 +7,7 @@ import 'package:wup/app/routes/app_pages.dart';
 class HomeController extends GetxController {
   final getStorage = GetStorage();
   var email = "";
-  var userName = "";
+  var name = "";
   var birthday = "";
   var gender = "";
   var mbti = "";
@@ -16,7 +16,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     email = getStorage.read("email");
-    userName = getStorage.read("userName");
+    name = getStorage.read("name");
     birthday = getStorage.read("birthday");
     gender = getStorage.read("gender");
     mbti = getStorage.read("mbti");

@@ -26,7 +26,7 @@ class HomeScreen extends GetView<HomeController> {
                 backgroundColor: Colors.grey[200],
               ),
               Text(
-                controller.userName,
+                controller.name,
                 style: textTheme().displayLarge,
               ),
               const SizedBox(height: 16),

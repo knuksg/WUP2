@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -5,16 +6,24 @@ import 'package:get_storage/get_storage.dart';
 import 'package:wup/app/routes/app_pages.dart';
 import 'package:wup/app/theme/theme.dart';
 import 'package:wup/app/data/services/notification_service.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+  await EasyLocalization.ensureInitialized();
   await GetStorage.init();
   await dotenv.load(fileName: 'assets/config/.env');
   await NotificationService().initNotification();
-  tz.initializeTimeZones();
-  initializeDateFormatting().then((_) => runApp(const MyApp()));
+  runApp(EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ko', 'KR'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en', 'US'),
+      startLocale: const Locale('ko', 'KR'),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,6 +37,9 @@ class MyApp extends StatelessWidget {
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
       theme: theme(),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
     );
   }
 }

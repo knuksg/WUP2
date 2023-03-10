@@ -15,7 +15,7 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    name = getStorage.read('userName');
+    name = getStorage.read('name');
     email = getStorage.read('email');
     gender = getStorage.read('gender');
     birthday = getStorage.read('birthday');

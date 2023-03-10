@@ -18,7 +18,7 @@ class LoginController extends GetxController {
     if (googleUser != null) {
       await signUp(googleUser.email, googleUser.displayName);
       getStorage.write("email", googleUser.email);
-      getStorage.write("userName", googleUser.displayName);
+      getStorage.write("name", googleUser.displayName);
       if (getStorage.read('mbti') != null) {
         Get.offAllNamed(Routes.HOME);
       } else {
@@ -39,7 +39,7 @@ class LoginController extends GetxController {
 
       await signUp(profileInfo['email'], profileInfo['name']);
       getStorage.write("email", profileInfo['email']);
-      getStorage.write("userName", profileInfo['name']);
+      getStorage.write("name", profileInfo['name']);
       if (getStorage.read('mbti') != null) {
         Get.offAllNamed(Routes.HOME);
       } else {
@@ -60,7 +60,7 @@ class LoginController extends GetxController {
     if (appleCredential.state != null) {
       await signUp(appleCredential.email!, appleCredential.givenName);
       getStorage.write("email", appleCredential.email);
-      getStorage.write("userName", appleCredential.givenName);
+      getStorage.write("name", appleCredential.givenName);
       if (getStorage.read('mbti') != null) {
         Get.offAllNamed(Routes.HOME);
       } else {
@@ -69,11 +69,11 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<http.Response> signUp(String email, String? userName) async {
-    userName ??= 'None';
+  Future<http.Response> signUp(String email, String? name) async {
+    name ??= 'None';
     final response = await http.post(Uri.parse("$server/accounts/"),
         headers: {"Content-Type": "application/json"},
-        body: '{"email": "$email", "username": "$userName"}');
+        body: '{"email": "$email", "name": "$name"}');
     return response;
   }
 }

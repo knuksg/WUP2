@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wup/app/routes/app_pages.dart';
@@ -35,26 +36,26 @@ class CustomBottomNavigationBar extends StatelessWidget {
             break;
         }
       },
-      items: const [
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+          icon: const Icon(Icons.home),
+          label: tr('navigation_bar.home'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_month),
-          label: 'Calendar',
+          icon: const Icon(Icons.calendar_month),
+          label: tr('navigation_bar.calendar'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.gamepad),
-          label: 'Game',
+          icon: const Icon(Icons.gamepad),
+          label: tr('navigation_bar.game'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
+          icon: const Icon(Icons.person),
+          label: tr('navigation_bar.profile'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.timeline),
-          label: 'Biorhythm',
+          icon: const Icon(Icons.timeline),
+          label: tr('navigation_bar.biorhythm'),
         ),
       ],
     );

@@ -1,0 +1,35 @@
+{
+    "login_button": "Sign In with {lang}",
+    "next": "Next",
+    "welcome": "Welcome",
+    "name": "{}",
+    "input": {
+        "gender": "Gender",
+        "female": "Female",
+        "male": "Male",
+        "name": "Name",
+        "birthday": "Birthday",
+        "heigth": "heigth",
+        "weight": "weight"
+    },
+    "navigation_bar": {
+        "home": "Home",
+        "calendar": "Calendar",
+        "game": "Game",
+        "profile": "Profile",
+        "biorhythm": "Biorhythm"
+    },
+    "calendar": {
+        "add_event": "ADD EVENT",
+        "add_event_text": "Please input your event.",
+        "title_validator": "Please enter a title.",
+        "event_date": "EVENT DATE",
+        "all_day": "All Day",
+        "start": "Start",
+        "end": "End",
+        "alarm": "Alarm",
+        "none": "None",
+        "alarm_minutes": "Before {} minutes.",
+        "alarm_message": "{} minutes before {event}."
+    }
+}

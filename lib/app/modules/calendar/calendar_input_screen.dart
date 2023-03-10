@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
@@ -27,7 +27,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
   late DateTime _endDate;
   bool _isAllDay = false;
   late Duration? _noti;
-  String dropdownValue = '없음';
+  String dropdownValue = 'none';
 
   List<Event> eventList = [];
   List searchList = [];
@@ -315,7 +315,11 @@ class _EventInputScreenState extends State<EventInputScreen> {
                       GetStorage().read('userName').hashCode ^
                           _startDate.toString().substring(0, 19).hashCode,
                       _titleController.text,
-                      '${_noti!.inMinutes}분',
+                      tr(
+                        'calendar.alarm_message',
+                        args: [_noti!.inMinutes.toString()],
+                        namedArgs: {'event': _titleController.text},
+                      ),
                       scheduledDate);
                 }
               },
@@ -342,18 +346,18 @@ class _EventInputScreenState extends State<EventInputScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'ADD EVENT',
+                        Text(
+                          tr('calendar.add_event'),
                         ),
                         TextFormField(
                           maxLength: 16,
                           controller: _titleController,
-                          decoration: const InputDecoration(
-                            hintText: '일정을 입력해주세요.',
+                          decoration: InputDecoration(
+                            hintText: tr('calendar.add_event_text'),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter a title';
+                              return tr('calendar.title_validator');
                             }
                             return null;
                           },
@@ -432,7 +436,7 @@ class _EventInputScreenState extends State<EventInputScreen> {
                                             searchList[index].noti.toString();
                                       } else {
                                         _noti = null;
-                                        dropdownValue = "없음";
+                                        dropdownValue = "none";
                                       }
                                       searchList.clear();
                                     });
@@ -452,16 +456,16 @@ class _EventInputScreenState extends State<EventInputScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              const Text(
-                                'EVENT DATE',
+                              Text(
+                                tr('calendar.event_date'),
                               ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    '하루 종일',
-                                    style: TextStyle(fontSize: 16),
+                                  Text(
+                                    tr('calendar.all_day'),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                   Switch(
                                     value: _isAllDay,
@@ -477,9 +481,9 @@ class _EventInputScreenState extends State<EventInputScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    '시작',
-                                    style: TextStyle(fontSize: 16),
+                                  Text(
+                                    tr('calendar.start'),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                   Row(
                                     children: [
@@ -532,9 +536,9 @@ class _EventInputScreenState extends State<EventInputScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    '종료',
-                                    style: TextStyle(fontSize: 16),
+                                  Text(
+                                    tr('calendar.end'),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                   Row(
                                     children: [
@@ -640,34 +644,40 @@ class _EventInputScreenState extends State<EventInputScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    '알람',
-                                    style: TextStyle(fontSize: 16),
+                                  Text(
+                                    tr('calendar.alarm'),
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                                   DropdownButton<String>(
                                     value: dropdownValue,
-                                    items: const [
+                                    items: [
                                       DropdownMenuItem(
-                                        value: "없음",
-                                        child: Text("없음"),
+                                        value: "none",
+                                        child: const Text("calendar.none").tr(),
                                       ),
                                       DropdownMenuItem(
                                         value: "15",
-                                        child: Text("15분 전 알람"),
+                                        child:
+                                            const Text("calendar.alarm_minutes")
+                                                .tr(args: ["15"]),
                                       ),
                                       DropdownMenuItem(
                                         value: "30",
-                                        child: Text("30분 전 알람"),
+                                        child:
+                                            const Text("calendar.alarm_minutes")
+                                                .tr(args: ["30"]),
                                       ),
                                       DropdownMenuItem(
                                         value: "60",
-                                        child: Text("한 시간 전 알람"),
+                                        child:
+                                            const Text("calendar.alarm_minutes")
+                                                .tr(args: ["60"]),
                                       ),
                                     ],
                                     onChanged: (value) {
                                       setState(() {
                                         dropdownValue = value!;
-                                        if (value == "없음") {
+                                        if (value == "none") {
                                           _noti = null;
                                         }
                                         if (value == "15") {

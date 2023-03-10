@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wup/app/modules/biorhythm/biorhythm_binding.dart';
-import 'package:wup/app/modules/biorhythm/chart_screen.dart';
+import 'package:wup/app/modules/biorhythm/biorhythm_screen.dart';
 import 'package:wup/app/modules/calendar/calendar_binding.dart';
 import 'package:wup/app/modules/calendar/calendar_screen.dart';
 import 'package:wup/app/modules/game/game_binding.dart';
@@ -88,7 +88,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.BIORHYTHM,
-      page: () => const BioRhythmScreen(),
+      page: () => const NewBiorhythmScreen(),
       binding: BiorhythmBinding(),
     ),
   ];

@@ -1,0 +1,35 @@
+{
+    "login_button": "{lang} 로그인",
+    "next": "다음",
+    "welcome": "환영해요",
+    "name": "{}님",
+    "input": {
+        "gender": "성별",
+        "female": "여성",
+        "male": "남성",
+        "name": "이름",
+        "birthday": "생일",
+        "height": "키",
+        "weight": "몸무게"
+    },
+    "navigation_bar": {
+        "home": "홈",
+        "calendar": "일정",
+        "game": "게임",
+        "profile": "프로필",
+        "biorhythm": "생체리듬"
+    },
+    "calendar": {
+        "add_event": "일정 추가",
+        "add_event_text": "일정을 입력해주세요.",
+        "title_validator": "일정 제목을 입력해주세요.",
+        "event_date": "이벤트 일정",
+        "all_day": "하루 종일",
+        "start": "시작",
+        "end": "종료",
+        "alarm": "알람",
+        "none": "없음",
+        "alarm_minutes": "{}분 전",
+        "alarm_message": "{event} 시작 {}분 전입니다."
+    }
+}

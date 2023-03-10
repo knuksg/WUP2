@@ -10,7 +10,7 @@ class InputController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    name = getStorage.read('userName');
+    name = getStorage.read('name');
     getStorage.write("progressbar", 0.01);
   }
 
@@ -24,7 +24,7 @@ class InputController extends GetxController {
     // TODO: Implement saving user info
     final newBirthday = birthday.toString().split(' ')[0];
     print(newBirthday);
-    getStorage.write('userName', name);
+    getStorage.write('name', name);
     getStorage.write('birthday', newBirthday);
     getStorage.write('gender', gender);
     getStorage.write('height', height);
