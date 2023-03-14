@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "818668515577",
+    "project_id": "flyingstone-wup",
+    "storage_bucket": "flyingstone-wup.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818668515577:android:cd126ec237f0e1171cf228",
+        "android_client_info": {
+          "package_name": "com.example.apple_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818668515577-5hjlrfuppe09472nlnvvmfe8i3bgqi49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_uzYLIPMci4wvgQCzRRY4a_p2JbTBLmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818668515577-3l5otkfl40bh3p4hrp1hsnosvauttvqk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "818668515577-i50e6v8kn7qnt4oc3jq4fqb2k2c3lcmb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flstone.appleLogin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818668515577:android:3c32fd645fc31f661cf228",
+        "android_client_info": {
+          "package_name": "com.flstone.wup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818668515577-re27dju1k0akf6jo7ijhsdl6sugac71s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flstone.wup",
+            "certificate_hash": "047683b05ce52baaada4dc7836c81716d5aeb7c3"
+          }
+        },
+        {
+          "client_id": "818668515577-5hjlrfuppe09472nlnvvmfe8i3bgqi49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_uzYLIPMci4wvgQCzRRY4a_p2JbTBLmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818668515577-3l5otkfl40bh3p4hrp1hsnosvauttvqk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "818668515577-i50e6v8kn7qnt4oc3jq4fqb2k2c3lcmb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flstone.appleLogin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818668515577:android:a7cede2d35ee994d1cf228",
+        "android_client_info": {
+          "package_name": "com.flyingstone.wup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818668515577-5hjlrfuppe09472nlnvvmfe8i3bgqi49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_uzYLIPMci4wvgQCzRRY4a_p2JbTBLmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818668515577-3l5otkfl40bh3p4hrp1hsnosvauttvqk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "818668515577-i50e6v8kn7qnt4oc3jq4fqb2k2c3lcmb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flstone.appleLogin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

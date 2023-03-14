@@ -54,6 +54,7 @@ dependencies:
   flutter_screenutil: ^5.6.1
 
   # login
+  firebase_core:
   firebase_auth:
   google_sign_in:
   flutter_facebook_auth:

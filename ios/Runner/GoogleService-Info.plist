@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>818668515577-s5plt389n55q3b4c48s61rrbujt4fsoa.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.818668515577-s5plt389n55q3b4c48s61rrbujt4fsoa</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>818668515577-re27dju1k0akf6jo7ijhsdl6sugac71s.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCK2UpX3UU5EAGI4Ld7ru52Lb4q35KAtWk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>818668515577</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.flstone.wup</string>
+	<key>PROJECT_ID</key>
+	<string>flyingstone-wup</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flyingstone-wup.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:818668515577:ios:7720d73edb5369981cf228</string>
+</dict>
+</plist>

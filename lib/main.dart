@@ -7,6 +7,10 @@ import 'package:wup/app/routes/app_pages.dart';
 import 'package:wup/app/theme/theme.dart';
 import 'package:wup/app/data/services/notification_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:apple_login/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +19,9 @@ void main() async {
   await GetStorage.init();
   await dotenv.load(fileName: 'assets/config/.env');
   await NotificationService().initNotification();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(EasyLocalization(
       supportedLocales: const [
         Locale('en', 'US'),
