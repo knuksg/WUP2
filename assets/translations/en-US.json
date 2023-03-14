@@ -1,8 +1,17 @@
-{
-    "login_button": "Sign In with {lang}",
-    "next": "Next",
-    "welcome": "Welcome",
+{   
     "name": "{}",
+
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No",
+    
+    "exit_title": "Exit App",
+    "exit_content": "Do you want to exit an App?",
+    
+    "login_button": "Sign In with {lang}",
+    
+    "welcome": "Welcome",
+    
     "input": {
         "gender": "Gender",
         "female": "Female",
@@ -31,5 +40,11 @@
         "none": "None",
         "alarm_minutes": "Before {} minutes.",
         "alarm_message": "{} minutes before {event}."
+    },
+    "biorhythm": {
+        "advice_title": "Today's Advice"
+    },
+    "chatgpt": {
+        "error": "You have exceeded the maximum allowed conversation limit for ChatGPT. Please reset the conversation."
     }
 }

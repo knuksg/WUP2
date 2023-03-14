@@ -82,12 +82,15 @@ dependencies:
   # biorhythm
   charts_flutter: ^0.12.0
   chat_gpt_flutter:
-
+  share_plus: ^6.3.1
+  syncfusion_flutter_gauges: ^20.4.53
   
 
   fl_chart: ^0.35.0
   syncfusion_flutter_charts:
   jsonize: ^1.7.1
+  chatgpt: ^0.0.0
+  bubble: ^1.2.1
 
   # # sidemenu 
   # flutter_slider_drawer:

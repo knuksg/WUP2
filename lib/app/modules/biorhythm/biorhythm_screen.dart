@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:wup/app/modules/biorhythm/biorhythm_animation_screen.dart';
 import 'package:wup/app/modules/biorhythm/biorhythm_controller.dart';
 import 'package:wup/app/routes/app_pages.dart';
@@ -26,6 +29,15 @@ class NewBiorhythmScreen extends GetView<BiorhythmController> {
                   Get.offAllNamed(Routes.HOME);
                 },
               ),
+              actions: [
+                const SizedBox(height: 8.0),
+                IconButton(
+                  icon: const Icon(Icons.share),
+                  onPressed: () async {
+                    await Share.share(controller.advice.value);
+                  },
+                )
+              ],
             ),
             body: Stack(
               children: [
@@ -36,41 +48,271 @@ class NewBiorhythmScreen extends GetView<BiorhythmController> {
                     'PreviousButton': _previousButtonBuilder,
                     'TodayButton': _todayButtonBuilder,
                   },
-                  initialActiveOverlays: const ['TodayButton'],
                 ),
                 Positioned.fill(
-                  top: 350,
-                  bottom: 50,
+                    top: 210.h,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 110.w,
+                              height: 100.h,
+                              child: Obx(
+                                () => SfRadialGauge(
+                                  axes: <RadialAxis>[
+                                    RadialAxis(
+                                      startAngle: 0,
+                                      endAngle: 360,
+                                      showLabels: false,
+                                      showTicks: false,
+                                      radiusFactor: 0.8,
+                                      axisLineStyle: const AxisLineStyle(
+                                        thicknessUnit: GaugeSizeUnit.factor,
+                                        thickness: 0.07,
+                                      ),
+                                    ),
+                                    RadialAxis(
+                                      startAngle: 0,
+                                      endAngle: 360,
+                                      showLabels: false,
+                                      showTicks: false,
+                                      showAxisLine: false,
+                                      radiusFactor: 0.8,
+                                      maximum: 100,
+                                      interval: 1,
+                                      annotations: <GaugeAnnotation>[
+                                        GaugeAnnotation(
+                                          widget: Center(
+                                            child: Text(
+                                              controller.centerPhysical.value
+                                                          .toString()
+                                                          .split('.')[1] !=
+                                                      '0'
+                                                  ? "${controller.centerPhysical.value}%"
+                                                  : controller.centerPhysical
+                                                              .value !=
+                                                          0
+                                                      ? "${controller.centerPhysical.value.toInt()}%"
+                                                      : "0%",
+                                              style: TextStyle(
+                                                fontSize: 16.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                      pointers: <GaugePointer>[
+                                        RangePointer(
+                                          value: convertValue(
+                                            controller.centerPhysical.value,
+                                          ),
+                                          width: 0.1,
+                                          color: const Color(0xFFF67280),
+                                          enableAnimation: true,
+                                          sizeUnit: GaugeSizeUnit.factor,
+                                          gradient: const SweepGradient(
+                                            colors: <Color>[
+                                              Color(0xFFFFB397),
+                                              Color(0xFFF46AA0)
+                                            ],
+                                            stops: <double>[0.25, 0.75],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 110.w,
+                              height: 100.h,
+                              child: Obx(
+                                () => SfRadialGauge(
+                                  axes: <RadialAxis>[
+                                    RadialAxis(
+                                      startAngle: 0,
+                                      endAngle: 360,
+                                      showLabels: false,
+                                      showTicks: false,
+                                      radiusFactor: 0.8,
+                                      axisLineStyle: const AxisLineStyle(
+                                        thicknessUnit: GaugeSizeUnit.factor,
+                                        thickness: 0.07,
+                                      ),
+                                    ),
+                                    RadialAxis(
+                                        startAngle: 0,
+                                        endAngle: 360,
+                                        showLabels: false,
+                                        showTicks: false,
+                                        showAxisLine: false,
+                                        radiusFactor: 0.8,
+                                        maximum: 100,
+                                        interval: 1,
+                                        annotations: <GaugeAnnotation>[
+                                          GaugeAnnotation(
+                                            widget: Center(
+                                              child: Text(
+                                                  controller.centerEmotional
+                                                              .value
+                                                              .toString()
+                                                              .split('.')[1] !=
+                                                          '0'
+                                                      ? "${controller.centerEmotional.value}%"
+                                                      : controller.centerEmotional
+                                                                  .value !=
+                                                              0
+                                                          ? "${controller.centerEmotional.value.toInt()}%"
+                                                          : "0%",
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp),
+                                                  textAlign: TextAlign.center),
+                                            ),
+                                          )
+                                        ],
+                                        pointers: <GaugePointer>[
+                                          RangePointer(
+                                            value: convertValue(
+                                              controller.centerEmotional.value,
+                                            ),
+                                            width: 0.1,
+                                            color: const Color(0xFFC9E4F9),
+                                            enableAnimation: true,
+                                            sizeUnit: GaugeSizeUnit.factor,
+                                            gradient: const SweepGradient(
+                                                colors: <Color>[
+                                                  Color(0xFF86CFF4),
+                                                  Color(0xFF3BA7F5)
+                                                ],
+                                                stops: <double>[
+                                                  0.25,
+                                                  0.75
+                                                ]),
+                                          ),
+                                        ])
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 110.w,
+                              height: 100.h,
+                              child: Obx(
+                                () => SfRadialGauge(
+                                  axes: <RadialAxis>[
+                                    RadialAxis(
+                                      startAngle: 0,
+                                      endAngle: 360,
+                                      showLabels: false,
+                                      showTicks: false,
+                                      radiusFactor: 0.8,
+                                      axisLineStyle: const AxisLineStyle(
+                                        thicknessUnit: GaugeSizeUnit.factor,
+                                        thickness: 0.07,
+                                      ),
+                                    ),
+                                    RadialAxis(
+                                        startAngle: 0,
+                                        endAngle: 360,
+                                        showLabels: false,
+                                        showTicks: false,
+                                        showAxisLine: false,
+                                        radiusFactor: 0.8,
+                                        maximum: 100,
+                                        interval: 1,
+                                        annotations: <GaugeAnnotation>[
+                                          GaugeAnnotation(
+                                            widget: Text(
+                                                controller.centerIntellectual
+                                                            .value
+                                                            .toString()
+                                                            .split('.')[1] !=
+                                                        '0'
+                                                    ? "${controller.centerIntellectual.value}%"
+                                                    : controller.centerIntellectual
+                                                                .value !=
+                                                            0
+                                                        ? "${controller.centerIntellectual.value.toInt()}%"
+                                                        : "0%",
+                                                style:
+                                                    TextStyle(fontSize: 16.sp),
+                                                textAlign: TextAlign.center),
+                                          )
+                                        ],
+                                        pointers: <GaugePointer>[
+                                          RangePointer(
+                                            value: convertValue(
+                                              controller
+                                                  .centerIntellectual.value,
+                                            ),
+                                            width: 0.1,
+                                            color: const Color(0xFF98FB98),
+                                            enableAnimation: true,
+                                            sizeUnit: GaugeSizeUnit.factor,
+                                            gradient: const SweepGradient(
+                                                colors: <Color>[
+                                                  Color(0xFF8BC34A),
+                                                  Color(0xFF008B45)
+                                                ],
+                                                stops: <double>[
+                                                  0.25,
+                                                  0.75
+                                                ]),
+                                          ),
+                                        ])
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    )),
+                Positioned.fill(
+                  top: 310.h,
+                  bottom: 50.h,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       alignment: Alignment.bottomCenter,
                       child: Column(
                         children: [
-                          const Text("Today's Advice"),
+                          DefaultTextBox(text: tr('biorhythm.advice_title')),
                           const SizedBox(height: 8.0),
-                          SizedBox(
-                            height: 200.h,
-                            child: SingleChildScrollView(
-                              child: Obx(() {
-                                if (controller.isLoading.value) {
-                                  return const Visibility(
-                                    visible: true,
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else if (controller.advice.value.isEmpty) {
-                                  return const Visibility(
-                                    visible: true,
-                                    child: Text('No advice available.'),
-                                  );
-                                } else {
-                                  return DefaultTextBox(
-                                    text: controller.advice.value.trim(),
-                                  );
-                                }
-                              }),
-                            ),
-                          ),
+                          Obx(() {
+                            if (controller.isLoading.value) {
+                              return Visibility(
+                                visible: true,
+                                child: Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      CircularProgressIndicator(),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else if (controller.advice.value.isEmpty) {
+                              return const Visibility(
+                                visible: true,
+                                child: Text('No advice available.'),
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  SizedBox(
+                                    height: 150.h,
+                                    child: DefaultTextBox(
+                                      text: controller.advice.value.trim(),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                          }),
                         ],
                       ),
                     ),
@@ -83,87 +325,132 @@ class NewBiorhythmScreen extends GetView<BiorhythmController> {
   }
 
   Widget _nextButtonBuilder(
-      BuildContext buildContext, BiorhythmAnimation game) {
+      BuildContext buildContext, BiorhythmAnimation animation) {
     return Positioned(
       bottom: 10,
       right: 10,
       child: IconDefaultButton(
         icon: const Icon(Icons.navigate_next),
         press: () {
-          if (game.tapPositon < game.data.length - 1) {
-            game.tapPositon++;
+          print(animation.tapPositon);
+          if (animation.tapPositon < animation.data.length - 1) {
+            animation.tapPositon++;
 
-            game.physicalComponent.position = Vector2(30.0 * game.tapPositon,
-                game.baseHeight + 100 - game.data[game.tapPositon].bioPhy);
-            game.emotionalComponent.position = Vector2(30.0 * game.tapPositon,
-                game.baseHeight + 100 - game.data[game.tapPositon].bioEmo);
-            game.intellectualComponent.position = Vector2(
-                30.0 * game.tapPositon,
-                game.baseHeight + 100 - game.data[game.tapPositon].bioInt);
+            animation.physicalComponent.position = Vector2(
+                30.0 * animation.tapPositon,
+                animation.baseHeight +
+                    100 -
+                    animation.data[animation.tapPositon].bioPhy);
+            animation.emotionalComponent.position = Vector2(
+                30.0 * animation.tapPositon,
+                animation.baseHeight +
+                    100 -
+                    animation.data[animation.tapPositon].bioEmo);
+            animation.intellectualComponent.position = Vector2(
+                30.0 * animation.tapPositon,
+                animation.baseHeight +
+                    100 -
+                    animation.data[animation.tapPositon].bioInt);
 
-            game.centerPhysical = game.data[game.tapPositon].bioPhy;
-            game.centerEmotional = game.data[game.tapPositon].bioEmo;
-            game.centerIntellectual = game.data[game.tapPositon].bioInt;
+            animation.centerPhysical =
+                animation.data[animation.tapPositon].bioPhy;
+            animation.centerEmotional =
+                animation.data[animation.tapPositon].bioEmo;
+            animation.centerIntellectual =
+                animation.data[animation.tapPositon].bioInt;
 
-            if (game.cameraPosition.x <
-                    30 * 31 - game.camera.viewport.effectiveSize.x / 2 - 30 &&
-                game.cameraPosition.x >
-                    game.camera.viewport.effectiveSize.x / 2 + 30) {
-              game.cameraPosition.x = game.physicalComponent.x;
-            } else if (game.physicalComponent.x <
-                    30 * 31 - game.camera.viewport.effectiveSize.x / 2 - 30 &&
-                game.physicalComponent.x >
-                    game.camera.viewport.effectiveSize.x / 2 + 30) {
-              game.cameraPosition.x = game.physicalComponent.x;
+            if (animation.cameraPosition.x <
+                    30 * 31 -
+                        animation.camera.viewport.effectiveSize.x / 2 -
+                        30 &&
+                animation.cameraPosition.x >
+                    animation.camera.viewport.effectiveSize.x / 2 + 30) {
+              animation.cameraPosition.x = animation.physicalComponent.x;
+            } else if (animation.physicalComponent.x <
+                    30 * 31 -
+                        animation.camera.viewport.effectiveSize.x / 2 -
+                        30 &&
+                animation.physicalComponent.x >
+                    animation.camera.viewport.effectiveSize.x / 2 + 30) {
+              animation.cameraPosition.x = animation.physicalComponent.x;
             }
           }
+
+          controller.centerPhysical.value =
+              animation.data[animation.tapPositon].bioPhy;
+          controller.centerEmotional.value =
+              animation.data[animation.tapPositon].bioEmo;
+          controller.centerIntellectual.value =
+              animation.data[animation.tapPositon].bioInt;
         },
       ),
     );
   }
 
   Widget _previousButtonBuilder(
-      BuildContext buildContext, BiorhythmAnimation game) {
+      BuildContext buildContext, BiorhythmAnimation animation) {
     return Positioned(
       bottom: 10,
       left: 10,
       child: IconDefaultButton(
         icon: const Icon(Icons.navigate_before),
-        press: () async {
-          if (game.tapPositon > 1) {
-            game.tapPositon--;
+        press: () {
+          if (animation.tapPositon > 1) {
+            animation.tapPositon--;
 
-            game.physicalComponent.position = Vector2(30.0 * game.tapPositon,
-                game.baseHeight + 100 - game.data[game.tapPositon].bioPhy);
-            game.emotionalComponent.position = Vector2(30.0 * game.tapPositon,
-                game.baseHeight + 100 - game.data[game.tapPositon].bioEmo);
-            game.intellectualComponent.position = Vector2(
-                30.0 * game.tapPositon,
-                game.baseHeight + 100 - game.data[game.tapPositon].bioInt);
+            animation.physicalComponent.position = Vector2(
+                30.0 * animation.tapPositon,
+                animation.baseHeight +
+                    100 -
+                    animation.data[animation.tapPositon].bioPhy);
+            animation.emotionalComponent.position = Vector2(
+                30.0 * animation.tapPositon,
+                animation.baseHeight +
+                    100 -
+                    animation.data[animation.tapPositon].bioEmo);
+            animation.intellectualComponent.position = Vector2(
+                30.0 * animation.tapPositon,
+                animation.baseHeight +
+                    100 -
+                    animation.data[animation.tapPositon].bioInt);
 
-            game.centerPhysical = game.data[game.tapPositon].bioPhy;
-            game.centerEmotional = game.data[game.tapPositon].bioEmo;
-            game.centerIntellectual = game.data[game.tapPositon].bioInt;
+            animation.centerPhysical =
+                animation.data[animation.tapPositon].bioPhy;
+            animation.centerEmotional =
+                animation.data[animation.tapPositon].bioEmo;
+            animation.centerIntellectual =
+                animation.data[animation.tapPositon].bioInt;
 
-            if (game.cameraPosition.x <
-                    30 * 31 - game.camera.viewport.effectiveSize.x / 2 - 30 &&
-                game.cameraPosition.x >
-                    game.camera.viewport.effectiveSize.x / 2 + 30) {
-              game.cameraPosition.x = game.physicalComponent.x;
-            } else if (game.physicalComponent.x <
-                    30 * 31 - game.camera.viewport.effectiveSize.x / 2 - 30 &&
-                game.physicalComponent.x >
-                    game.camera.viewport.effectiveSize.x / 2 + 30) {
-              game.cameraPosition.x = game.physicalComponent.x;
+            if (animation.cameraPosition.x <
+                    30 * 31 -
+                        animation.camera.viewport.effectiveSize.x / 2 -
+                        30 &&
+                animation.cameraPosition.x >
+                    animation.camera.viewport.effectiveSize.x / 2 + 30) {
+              animation.cameraPosition.x = animation.physicalComponent.x;
+            } else if (animation.physicalComponent.x <
+                    30 * 31 -
+                        animation.camera.viewport.effectiveSize.x / 2 -
+                        30 &&
+                animation.physicalComponent.x >
+                    animation.camera.viewport.effectiveSize.x / 2 + 30) {
+              animation.cameraPosition.x = animation.physicalComponent.x;
             }
           }
+
+          controller.centerPhysical.value =
+              animation.data[animation.tapPositon].bioPhy;
+          controller.centerEmotional.value =
+              animation.data[animation.tapPositon].bioEmo;
+          controller.centerIntellectual.value =
+              animation.data[animation.tapPositon].bioInt;
         },
       ),
     );
   }
 
   Widget _todayButtonBuilder(
-      BuildContext buildContext, BiorhythmAnimation game) {
+      BuildContext buildContext, BiorhythmAnimation animation) {
     return Positioned.fill(
       bottom: 10,
       child: Row(
@@ -173,25 +460,47 @@ class NewBiorhythmScreen extends GetView<BiorhythmController> {
           IconDefaultButton(
             icon: const Icon(Icons.today),
             press: () async {
-              game.tapPositon = 16;
+              animation.tapPositon = 16;
 
-              game.physicalComponent.position = Vector2(30.0 * game.tapPositon,
-                  game.baseHeight + 100 - game.data[game.tapPositon].bioPhy);
-              game.emotionalComponent.position = Vector2(30.0 * game.tapPositon,
-                  game.baseHeight + 100 - game.data[game.tapPositon].bioEmo);
-              game.intellectualComponent.position = Vector2(
-                  30.0 * game.tapPositon,
-                  game.baseHeight + 100 - game.data[game.tapPositon].bioInt);
+              animation.physicalComponent.position = Vector2(
+                  30.0 * animation.tapPositon,
+                  animation.baseHeight +
+                      100 -
+                      animation.data[animation.tapPositon].bioPhy);
+              animation.emotionalComponent.position = Vector2(
+                  30.0 * animation.tapPositon,
+                  animation.baseHeight +
+                      100 -
+                      animation.data[animation.tapPositon].bioEmo);
+              animation.intellectualComponent.position = Vector2(
+                  30.0 * animation.tapPositon,
+                  animation.baseHeight +
+                      100 -
+                      animation.data[animation.tapPositon].bioInt);
 
-              game.centerPhysical = game.data[game.tapPositon].bioPhy;
-              game.centerEmotional = game.data[game.tapPositon].bioEmo;
-              game.centerIntellectual = game.data[game.tapPositon].bioInt;
+              animation.centerPhysical =
+                  animation.data[animation.tapPositon].bioPhy;
+              animation.centerEmotional =
+                  animation.data[animation.tapPositon].bioEmo;
+              animation.centerIntellectual =
+                  animation.data[animation.tapPositon].bioInt;
 
-              game.cameraPosition.x = game.physicalComponent.x;
+              animation.cameraPosition.x = animation.physicalComponent.x;
+
+              controller.centerPhysical.value =
+                  animation.data[animation.tapPositon].bioPhy;
+              controller.centerEmotional.value =
+                  animation.data[animation.tapPositon].bioEmo;
+              controller.centerIntellectual.value =
+                  animation.data[animation.tapPositon].bioInt;
             },
           )
         ],
       ),
     );
   }
+}
+
+convertValue(double value) {
+  return (value + 100) / 2;
 }

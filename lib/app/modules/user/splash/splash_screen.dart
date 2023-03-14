@@ -52,13 +52,16 @@ class SplashScreen extends GetView<SplashController> {
               },
               child: Obx(() => controller.textWidget[2]),
             ),
-            Obx(() => AnimatedTextKit(animatedTexts: [
-                  ColorizeAnimatedText(
-                    controller.WUP.value,
-                    textStyle: controller.colorizeTextStyle,
-                    colors: controller.colorizeColors,
-                  ),
-                ]))
+            Obx(() => AnimatedTextKit(
+                  animatedTexts: [
+                    ColorizeAnimatedText(
+                      controller.WUP.value,
+                      textStyle: controller.colorizeTextStyle,
+                      colors: controller.colorizeColors,
+                    ),
+                  ],
+                  repeatForever: true,
+                ))
           ],
         ),
       ),

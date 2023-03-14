@@ -23,16 +23,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
             Get.offNamed(Routes.HOME);
             break;
           case 1:
-            Get.offNamed(Routes.CALENDAR);
+            Get.toNamed(Routes.CALENDAR);
             break;
           case 2:
-            Get.offNamed(Routes.GAME);
+            Get.toNamed(Routes.GAME);
             break;
           case 3:
-            Get.offNamed(Routes.PROFILE);
+            Get.toNamed(Routes.PROFILE);
             break;
           case 4:
-            Get.offNamed(Routes.BIORHYTHM);
+            Get.toNamed(Routes.BIORHYTHM);
             break;
         }
       },

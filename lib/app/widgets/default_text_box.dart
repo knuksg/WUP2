@@ -30,7 +30,7 @@ class DefaultTextBox extends StatelessWidget {
             ),
           ],
         ),
-        child: Text(text ?? ''),
+        child: SingleChildScrollView(child: Text(text ?? '')),
       ),
     );
   }

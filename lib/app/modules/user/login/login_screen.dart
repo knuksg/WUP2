@@ -48,7 +48,7 @@ class LoginScreen extends GetView<LoginController> {
                     children: [
                       SizedBox(
                         width: min(320, 320.w),
-                        height: 30.h,
+                        height: 35.h,
                         child: LoginButton(
                             platform: "Google",
                             onPressed: () {
@@ -58,7 +58,7 @@ class LoginScreen extends GetView<LoginController> {
                       const SizedBox(height: 8.0),
                       SizedBox(
                         width: min(320, 320.w),
-                        height: 30.h,
+                        height: 35.h,
                         child: LoginButton(
                           platform: "Facebook",
                           onPressed: () {
@@ -69,7 +69,7 @@ class LoginScreen extends GetView<LoginController> {
                       const SizedBox(height: 8.0),
                       SizedBox(
                         width: min(320, 320.w),
-                        height: 30.h,
+                        height: 35.h,
                         child: LoginButton(
                           platform: "Apple",
                           onPressed: () {

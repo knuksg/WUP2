@@ -1,8 +1,16 @@
 {
-    "login_button": "{lang} 로그인",
-    "next": "다음",
-    "welcome": "환영해요",
     "name": "{}님",
+    "next": "다음",
+    "yes": "네",
+    "no": "아니오",
+
+    "exit_title": "앱 종료하기",
+    "exit_content": "앱을 종료하시겠습니까?",
+
+    "login_button": "{lang} 로그인",
+
+    "welcome": "환영해요",
+    
     "input": {
         "gender": "성별",
         "female": "여성",
@@ -31,5 +39,11 @@
         "none": "없음",
         "alarm_minutes": "{}분 전",
         "alarm_message": "{event} 시작 {}분 전입니다."
+    },
+    "biorhythm": {
+        "advice_title": "오늘의 조언"
+    },
+    "chatgpt": {
+        "error": "ChatGPT에게 허용된 대화의 최대치를 초과했습니다. 대화를 초기화해주세요."
     }
 }

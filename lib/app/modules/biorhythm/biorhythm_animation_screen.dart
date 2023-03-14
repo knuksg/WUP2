@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flame/effects.dart';
@@ -14,9 +13,11 @@ import 'package:flame/input.dart';
 import 'dart:math';
 
 import 'package:wup/app/data/model/biorhythm_model.dart';
+import 'package:wup/app/modules/biorhythm/biorhythm_controller.dart';
 
 class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
   final storage = GetStorage();
+  final controller = BiorhythmController();
 
   bool isCameraMoved = false;
   late Vector2 cameraPosition;
@@ -60,9 +61,14 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
       (index) {
         final date = today.add(Duration(days: index - 15));
         final countDays = delta + index - 15;
-        final bioPhy = sin(2 * pi * countDays / 23) * 100;
-        final bioEmo = sin(2 * pi * countDays / 28) * 100;
-        final bioInt = sin(2 * pi * countDays / 33) * 100;
+        var bioPhy = sin(2 * pi * countDays / 23) * 100;
+        var bioEmo = sin(2 * pi * countDays / 28) * 100;
+        var bioInt = sin(2 * pi * countDays / 33) * 100;
+
+        bioPhy = double.parse(bioPhy.toStringAsFixed(1));
+        bioEmo = double.parse(bioEmo.toStringAsFixed(1));
+        bioInt = double.parse(bioInt.toStringAsFixed(1));
+
         return BioData(date, bioPhy, bioEmo, bioInt);
       },
     );
@@ -76,6 +82,10 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
     centerPhysical = data[16].bioPhy;
     centerEmotional = data[16].bioEmo;
     centerIntellectual = data[16].bioInt;
+
+    storage.write('centerPhysical', data[16].bioPhy);
+    storage.write('centerEmotional', data[16].bioEmo);
+    storage.write('centerIntellectual', data[16].bioInt);
 
     final paint1 = Paint()..color = Colors.red;
     final paint2 = Paint()..color = Colors.blue;
@@ -91,9 +101,13 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
 
     for (var i = 1; i <= 31; i++) {
       final countDays = delta + i - 15;
-      final bioPhy = sin(2 * pi * countDays / 23) * 100;
-      final bioEmo = sin(2 * pi * countDays / 28) * 100;
-      final bioInt = sin(2 * pi * countDays / 33) * 100;
+      var bioPhy = sin(2 * pi * countDays / 23) * 100;
+      var bioEmo = sin(2 * pi * countDays / 28) * 100;
+      var bioInt = sin(2 * pi * countDays / 33) * 100;
+
+      bioPhy = double.parse(bioPhy.toStringAsFixed(1));
+      bioEmo = double.parse(bioEmo.toStringAsFixed(1));
+      bioInt = double.parse(bioInt.toStringAsFixed(1));
 
       final x = i * 30.0;
       final firstX = i * 30.0 + 198;
@@ -169,7 +183,7 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
     }
 
     add(todayComponent = TextComponent()
-      ..add(MoveAlongPathEffect(path0, EffectController(duration: 10))));
+      ..add(MoveAlongPathEffect(path0, EffectController(duration: 5))));
 
     camera.followComponent(todayComponent);
 
@@ -178,21 +192,21 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
       ..size = Vector2.all(30)
       ..anchor = Anchor.center
       ..priority = Priority.kMaxOffset
-      ..add(MoveAlongPathEffect(path4, EffectController(duration: 10))));
+      ..add(MoveAlongPathEffect(path4, EffectController(duration: 5))));
 
     final emotionalImage = await images.load('Emotional.png');
     add(emotionalComponent = SpriteComponent.fromImage(emotionalImage)
       ..size = Vector2.all(30)
       ..anchor = Anchor.center
       ..priority = Priority.kMaxOffset
-      ..add(MoveAlongPathEffect(path5, EffectController(duration: 10))));
+      ..add(MoveAlongPathEffect(path5, EffectController(duration: 5))));
 
     final intellectualImage = await images.load('Intellectual.png');
     add(intellectualComponent = SpriteComponent.fromImage(intellectualImage)
       ..size = Vector2.all(30)
       ..anchor = Anchor.center
       ..priority = Priority.kMaxOffset
-      ..add(MoveAlongPathEffect(path6, EffectController(duration: 10))));
+      ..add(MoveAlongPathEffect(path6, EffectController(duration: 5))));
 
     add(TextComponent(
       text: 'Today',
@@ -205,12 +219,13 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
     ));
 
     add(TimerComponent(
-      period: 10,
-      onTick: () => isCameraMoved = true,
-    ));
-
-    overlays.add('NextButton');
-    overlays.add('PreviousButton');
+        period: 5,
+        onTick: () {
+          isCameraMoved = true;
+          overlays.add('NextButton');
+          overlays.add('PreviousButton');
+          overlays.add('TodayButton');
+        }));
 
     cameraPosition = Vector2(30.0 * 16, camera.viewport.canvasSize!.y / 2 - 30);
     cameraVelocity = Vector2(0, camera.viewport.canvasSize!.y / 2 - 30);
@@ -241,21 +256,6 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
       style: textStyle,
     );
 
-    TextSpan textSpan3 = TextSpan(
-      text: 'Physical $centerPhysical',
-      style: textStyle,
-    );
-
-    TextSpan textSpan4 = TextSpan(
-      text: 'Emotional $centerEmotional',
-      style: textStyle,
-    );
-
-    TextSpan textSpan5 = TextSpan(
-      text: 'Intellectual $centerIntellectual',
-      style: textStyle,
-    );
-
     final textPainter0 = TextPainter(
       text: textSpan0,
       textAlign: TextAlign.center,
@@ -273,30 +273,9 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
       textDirection: TextDirection.ltr,
     );
 
-    final textPainter3 = TextPainter(
-      text: textSpan3,
-      textAlign: TextAlign.center,
-      textDirection: TextDirection.ltr,
-    );
-
-    final textPainter4 = TextPainter(
-      text: textSpan4,
-      textAlign: TextAlign.center,
-      textDirection: TextDirection.ltr,
-    );
-
-    final textPainter5 = TextPainter(
-      text: textSpan5,
-      textAlign: TextAlign.center,
-      textDirection: TextDirection.ltr,
-    );
-
     textPainter0.layout();
     textPainter1.layout();
     textPainter2.layout();
-    textPainter3.layout();
-    textPainter4.layout();
-    textPainter5.layout();
 
     double x = 8.0;
     double y = 112;
@@ -304,9 +283,6 @@ class BiorhythmAnimation extends FlameGame with HasDraggables, HasTappables {
     textPainter1.paint(canvas, Offset(x, 5));
     textPainter0.paint(canvas, Offset(x, y));
     textPainter2.paint(canvas, Offset(x, y + 120));
-    textPainter3.paint(canvas, Offset(x, 270));
-    textPainter4.paint(canvas, Offset(x, 285));
-    textPainter5.paint(canvas, Offset(x, 300));
 
     final paint1 = Paint()
       ..color = const Color.fromARGB(99, 0, 0, 0)

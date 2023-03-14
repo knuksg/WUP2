@@ -8,22 +8,38 @@ import 'package:wup/app/data/model/biorhythm_model.dart';
 class BiorhythmController extends GetxController {
   final getStorage = GetStorage();
   var advice = "".obs;
-  var centerPhysical = 0.0;
-  var centerEmotional = 0.0;
-  var centerIntellectual = 0.0;
+  var centerPhysical = 0.0.obs;
+  var centerEmotional = 0.0.obs;
+  var centerIntellectual = 0.0.obs;
   var isLoading = true.obs;
   List<BioData> data = [];
   double Physical = 0;
   double Emotional = 0;
   double Intellectual = 0;
   late var locale;
+  late var todayAdvice;
 
   @override
   void onInit() {
-    // TODO: implement onInit
-    locale = Get.locale?.languageCode;
-    getBiorhythm();
-    getAdvice();
+    // 하루에 한 번만 ChatGPT 사용할 수 있게 제한.
+    final today = DateTime.now().toLocal().day.toString();
+    todayAdvice = getStorage.read('advice $today');
+
+    if (todayAdvice != null) {
+      isLoading.value = false;
+      advice.value = todayAdvice;
+      centerPhysical.value = getStorage.read('centerPhysical');
+      centerEmotional.value = getStorage.read('centerEmotional');
+      centerIntellectual.value = getStorage.read('centerIntellectual');
+    } else {
+      locale = Get.locale?.languageCode;
+      getBiorhythm();
+      getAdvice();
+      centerPhysical.value = getStorage.read('centerPhysical');
+      centerEmotional.value = getStorage.read('centerEmotional');
+      centerIntellectual.value = getStorage.read('centerIntellectual');
+    }
+
     super.onInit();
   }
 
@@ -53,7 +69,7 @@ class BiorhythmController extends GetxController {
 
   Future<CompletionResponse?> getChatGPT(
       double Physical, double Emotional, double Intellectual) async {
-    const apiKey = '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';
+    const apiKey = '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';
     final chatGpt = ChatGpt(apiKey: apiKey);
 
     var pragraphPrompt = '''
@@ -76,6 +92,8 @@ class BiorhythmController extends GetxController {
   }
 
   Future<void> getAdvice() async {
+    final today = DateTime.now().toLocal().day.toString();
+
     final result = await getChatGPT(
       Physical,
       Emotional,
@@ -85,5 +103,7 @@ class BiorhythmController extends GetxController {
     advice.value = result?.choices?.first.text ?? 'error';
 
     isLoading.value = false;
+
+    getStorage.write('advice $today', advice.value);
   }
 }

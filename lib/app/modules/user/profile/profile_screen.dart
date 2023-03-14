@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttermoji/fluttermoji.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:wup/app/modules/user/fluttermoji/fluttermoji_edit_screen.dart';
 import 'package:wup/app/modules/user/profile/profile_controller.dart';
 import 'package:wup/app/widgets/bottom_navigation_bar.dart';
 
@@ -22,9 +23,22 @@ class ProfileScreen extends GetView<ProfileController> {
               children: [
                 const SizedBox(height: 16),
                 Center(
-                  child: FluttermojiCircleAvatar(
-                    radius: 100,
-                    backgroundColor: Colors.grey[200],
+                  child: Column(
+                    children: [
+                      FluttermojiCircleAvatar(
+                        radius: 100,
+                        backgroundColor: Colors.grey[200],
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FluttermojiEditScreen()));
+                          },
+                          icon: const Icon(Icons.mode_edit))
+                    ],
                   ),
                 ),
                 const SizedBox(height: 24),
